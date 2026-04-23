@@ -47,6 +47,7 @@ jobs:
           script: |
             cd ~/domains/main.sekolahkemurnian.sch.id/kemurnian-web
             git pull origin main
+            /opt/alt/php84/usr/bin/php /usr/local/bin/composer install --no-dev --optimize-autoloader
             /opt/alt/php84/usr/bin/php artisan migrate --force
             /opt/alt/php84/usr/bin/php artisan config:cache
             /opt/alt/php84/usr/bin/php artisan route:cache
