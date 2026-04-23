@@ -38,18 +38,17 @@ class HeroController extends Controller
         $hero->order = Hero::max('order') + 1;
 
         if ($request->hasFile('desktopImage')) {
-            $path = $request->file('desktopImage')->store('hero', 'public_html');
-            $hero->desktop_image = '/' . $path;
+            $path = $request->file('desktopImage')->store('hero/desktop', 'public_html');
+            $hero->desktop_image = $path;
         }
         if ($request->hasFile('tabletImage')) {
-            $path = $request->file('tabletImage')->store('hero', 'public_html');
-            $hero->tablet_image = '/' . $path;
+            $path = $request->file('tabletImage')->store('hero/tablet', 'public_html');
+            $hero->tablet_image = $path;
         }
         if ($request->hasFile('mobileImage')) {
-            $path = $request->file('mobileImage')->store('hero', 'public_html');
-            $hero->mobile_image = '/' . $path;
+            $path = $request->file('mobileImage')->store('hero/mobile', 'public_html');
+            $hero->mobile_image = $path;
         }
-
         $hero->save();
 
         return redirect()->route('admin.hero')->with('success', 'Hero banner created!');
@@ -61,10 +60,9 @@ class HeroController extends Controller
 
         // Delete files from public_html
         foreach (['desktop_image', 'tablet_image', 'mobile_image'] as $field) {
-            if ($hero->$field) {
-                // Extract path from full URL
-                $path = str_replace(env('APP_URL') . '/uploads/', '', $hero->$field);
-                Storage::disk('public_html')->delete($path);
+            $raw = $hero->getRawOriginal($field);
+            if ($raw) {
+                Storage::disk('public_html')->delete($raw);
             }
         }
 
