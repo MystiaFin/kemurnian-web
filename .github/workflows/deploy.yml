@@ -35,7 +35,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           source: "public/build/"
-          target: "~/domains/main.sekolahkemurnian.sch.id/public/"
+          target: "~/domains/main.sekolahkemurnian.sch.id/kemurnian-web/public/"
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
