@@ -1,0 +1,254 @@
+{
+  "sekolah-kemurnian-1": {
+    "title": "Sekolah Kemurnian I",
+    "image_path": "/sekolah/kemurnian_i.avif",
+    "units": [
+      {
+        "nama_sekolah": "TK Kemurnian I",
+        "izin_operasional": "1074/1.851 48",
+        "status_sekolah": "Swasta",
+        "nama_yayasan": "Yayasan Pendidikan Kemurnian",
+        "tanggal_berdiri": "2 Januari 1978",
+        "status_tanah_bangunan": "Milik Sendiri",
+        "waktu_penyelenggaraan": "Pagi, pukul 07.00 s.d 11.00",
+        "akreditasi": {
+          "no_sk": "060237",
+          "jenjang": "A (Amat Baik)",
+          "tahun": 2016
+        },
+        "alamat": {
+          "jalan": "Jl. Kemurnian V No. 209",
+          "desa_kelurahan": "Glodok",
+          "kecamatan": "Tamansari",
+          "kotamadya": "Jakarta Barat",
+          "provinsi": "DKI Jakarta",
+          "kode_pos": "11120"
+        },
+        "kontak": {
+          "telepon": "(021) 6340525 / 6335236",
+          "fax": "(021) 6341343"
+        }
+      },
+      {
+        "nama_sekolah": "SD Kemurnian I",
+        "izin_operasional": "1074/1.851 48",
+        "status_sekolah": "Swasta",
+        "nama_yayasan": "Yayasan Pendidikan Kemurnian",
+        "tanggal_berdiri": "2 Januari 1978",
+        "status_tanah_bangunan": "Milik Sendiri",
+        "waktu_penyelenggaraan": "Pagi, pukul 07.00 s.d 12.00",
+        "akreditasi": {
+          "no_sk": "060237",
+          "jenjang": "A (Amat Baik)",
+          "tahun": 2016
+        },
+        "alamat": {
+          "jalan": "Jl. Kemurnian V No. 209",
+          "desa_kelurahan": "Glodok",
+          "kecamatan": "Tamansari",
+          "kotamadya": "Jakarta Barat",
+          "provinsi": "DKI Jakarta",
+          "kode_pos": "11120"
+        },
+        "kontak": {
+          "telepon": "(021) 6340525 / 6335236",
+          "fax": "(021) 6341343"
+        }
+      },
+      {
+        "nama_sekolah": "SMP Kemurnian I",
+        "izin_operasional": "1074/1.851 48",
+        "status_sekolah": "Swasta",
+        "nama_yayasan": "Yayasan Pendidikan Kemurnian",
+        "tanggal_berdiri": "2 Januari 1978",
+        "status_tanah_bangunan": "Milik Sendiri",
+        "waktu_penyelenggaraan": "Pagi, pukul 07.00 s.d 14.00",
+        "akreditasi": {
+          "no_sk": "060237",
+          "jenjang": "A (Amat Baik)",
+          "tahun": 2016
+        },
+        "alamat": {
+          "jalan": "Jl. Kemurnian V No. 209",
+          "desa_kelurahan": "Glodok",
+          "kecamatan": "Tamansari",
+          "kotamadya": "Jakarta Barat",
+          "provinsi": "DKI Jakarta",
+          "kode_pos": "11120"
+        },
+        "kontak": {
+          "telepon": "(021) 6340525 / 6335236",
+          "fax": "(021) 6341343"
+        }
+      }
+    ]
+  },
+  "sekolah-kemurnian-2": {
+    "title": "Sekolah Kemurnian II",
+    "image_path": "/sekolah/kemurnian_ii.avif",
+    "units": [
+      {
+        "nama_sekolah": "TK Kemurnian II",
+        "izin_operasional": "003/1.2.1/31.73.05/-1.851.192/2015",
+        "status_sekolah": "Swasta",
+        "nama_yayasan": "Yayasan Pendidikan Kemurnian",
+        "tanggal_berdiri": "2 Februari 1988",
+        "status_tanah_bangunan": "Milik Sendiri",
+        "waktu_penyelenggaraan": "Pagi, pukul 07.00 s.d 11.00",
+        "akreditasi": {
+          "no_sk": "PAUD-TK/3174/0084/12/2018",
+          "jenjang": "A (UNGGUL)",
+          "tahun": 2018
+        },
+        "alamat": {
+          "jalan": "Komp. Green Ville Blok Q 209",
+          "desa_kelurahan": "Duri Kepa",
+          "kecamatan": "Kebon Jeruk",
+          "kotamadya": "Jakarta Barat",
+          "provinsi": "DKI Jakarta",
+          "kode_pos": "11510"
+        },
+        "kontak": {
+          "telepon": "(021) 5605556",
+          "fax": "(021) 6341343"
+        }
+      },
+      {
+        "nama_sekolah": "SD Kemurnian II",
+        "izin_operasional": "7609/-1.851.58",
+        "status_sekolah": "Swasta",
+        "nama_yayasan": "Yayasan Pendidikan Kemurnian",
+        "tanggal_berdiri": "2 Februari 1988",
+        "status_tanah_bangunan": "Milik Sendiri",
+        "waktu_penyelenggaraan": "Pagi, pukul 07.00 s.d 13.35",
+        "akreditasi": {
+          "no_sk": "060237",
+          "jenjang": "A (Amat Baik)",
+          "tahun": 2014
+        },
+        "alamat": {
+          "jalan": "Komp. Green Ville Blok Q 209",
+          "desa_kelurahan": "Duri Kepa",
+          "kecamatan": "Kebon Jeruk",
+          "kotamadya": "Jakarta Barat",
+          "provinsi": "DKI Jakarta",
+          "kode_pos": "11510"
+        },
+        "kontak": {
+          "telepon": "(021) 5605556",
+          "fax": "(021) 6341343"
+        }
+      },
+      {
+        "nama_sekolah": "SMP Kemurnian II",
+        "izin_operasional": "3029/-1.851.58",
+        "status_sekolah": "Swasta",
+        "nama_yayasan": "Yayasan Pendidikan Kemurnian",
+        "tanggal_berdiri": "2 Februari 1988",
+        "status_tanah_bangunan": "Milik Sendiri",
+        "waktu_penyelenggaraan": "Pagi, pukul 07.00 s.d 13.35",
+        "akreditasi": {
+          "no_sk": "906/BAN-SM/SK/2019",
+          "jenjang": "A (Amat Baik)",
+          "tahun": 2019
+        },
+        "alamat": {
+          "jalan": "Komp. Green Ville Blok Q 209",
+          "desa_kelurahan": "Duri Kepa",
+          "kecamatan": "Kebon Jeruk",
+          "kotamadya": "Jakarta Barat",
+          "provinsi": "DKI Jakarta",
+          "kode_pos": "11510"
+        },
+        "kontak": {
+          "telepon": "(021) 5605556",
+          "fax": "(021) 6341343"
+        }
+      },
+      {
+        "nama_sekolah": "SMA Kemurnian II",
+        "izin_operasional": "7609/-1.851.58",
+        "status_sekolah": "Swasta",
+        "nama_yayasan": "Yayasan Pendidikan Kemurnian",
+        "tanggal_berdiri": "2 Februari 1988",
+        "status_tanah_bangunan": "Milik Sendiri",
+        "waktu_penyelenggaraan": "Pagi, pukul 07.00 s.d 14.00",
+        "akreditasi": {
+          "no_sk": "060237",
+          "jenjang": "A (Amat Baik)",
+          "tahun": 2014
+        },
+        "alamat": {
+          "jalan": "Komp. Green Ville Blok Q 209",
+          "desa_kelurahan": "Duri Kepa",
+          "kecamatan": "Kebon Jeruk",
+          "kotamadya": "Jakarta Barat",
+          "provinsi": "DKI Jakarta",
+          "kode_pos": "11510"
+        },
+        "kontak": {
+          "telepon": "(021) 5605556",
+          "fax": "(021) 6341343"
+        }
+      }
+    ]
+  },
+  "sekolah-kemurnian-3": {
+    "title": "Sekolah Kemurnian III",
+    "image_path": "/sekolah/kemurnian_iii.avif",
+    "units": [
+      {
+        "nama_sekolah": "TK Kemurnian III",
+        "izin_operasional": "7609/-1.851.58",
+        "status_sekolah": "Swasta",
+        "nama_yayasan": "Yayasan Pendidikan Kemurnian",
+        "tanggal_berdiri": "30 Desember 2007",
+        "status_tanah_bangunan": "Milik Sendiri",
+        "waktu_penyelenggaraan": "Pagi, pukul 07.00 s.d 11.00",
+        "akreditasi": {
+          "no_sk": "060237",
+          "jenjang": "A (Amat Baik)",
+          "tahun": 2014
+        },
+        "alamat": {
+          "jalan": "Perum Citra II Blok A/3",
+          "desa_kelurahan": "Pegadungan",
+          "kecamatan": "Kali Deres",
+          "kotamadya": "Jakarta Barat",
+          "provinsi": "DKI Jakarta",
+          "kode_pos": "11830"
+        },
+        "kontak": {
+          "telepon": "(021) 54390005",
+          "fax": "(021) 6341343"
+        }
+      },
+      {
+        "nama_sekolah": "SDS Kemurnian III",
+        "izin_operasional": "7609/-1.851.58",
+        "status_sekolah": "Swasta",
+        "nama_yayasan": "Yayasan Pendidikan Kemurnian",
+        "tanggal_berdiri": "30 Desember 2007",
+        "status_tanah_bangunan": "Milik Sendiri",
+        "waktu_penyelenggaraan": "Pagi, pukul 07.00 s.d 12.00",
+        "akreditasi": {
+          "no_sk": "752/BAN-SM/SK/2019",
+          "jenjang": "A (Unggul)",
+          "tahun": 2019
+        },
+        "alamat": {
+          "jalan": "Perum Citra II Blok A/3",
+          "desa_kelurahan": "Pegadungan",
+          "kecamatan": "Kali Deres",
+          "kotamadya": "Jakarta Barat",
+          "provinsi": "DKI Jakarta",
+          "kode_pos": "11830"
+        },
+        "kontak": {
+          "telepon": "(021) 54390005",
+          "fax": "(021) 6341343"
+        }
+      }
+    ]
+  }
+}

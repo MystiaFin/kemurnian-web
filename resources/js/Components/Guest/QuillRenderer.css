@@ -1,0 +1,43 @@
+.quill-content {
+  white-space: pre-wrap;
+}
+
+.quill-content ol,
+.quill-content ul {
+  margin: 1em 0;
+  padding-left: 1.5em;
+}
+
+.quill-content li {
+  margin-bottom: 0.5em;
+}
+
+.quill-content ul {
+  list-style-type: disc;
+}
+
+.quill-content ul ul {
+  list-style-type: circle;
+}
+
+.quill-content ul ul ul {
+  list-style-type: square;
+}
+
+.quill-content li[data-list="bullet"],
+.quill-content li[data-list-type="bullet"] {
+  list-style-type: disc !important;
+}
+
+.quill-content ol {
+  list-style-type: decimal;
+}
+
+.quill-content li[data-list="ordered"],
+.quill-content li[data-list-type="ordered"] {
+  list-style-type: decimal !important;
+}
+
+.quill-content .ql-ui {
+  display: none !important;
+}

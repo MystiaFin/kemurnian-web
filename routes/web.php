@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\KurikulumController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\EnrollmentController;
 use App\Http\Controllers\Admin\FasilitasController;
+use App\Http\Controllers\Guest\SiteController;
 
 Route::prefix('admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
@@ -52,3 +53,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/fasilitas', [FasilitasController::class, 'store'])->name('fasilitas.store');
     Route::delete('/fasilitas/{id}', [FasilitasController::class, 'destroy'])->name('fasilitas.destroy');
 });
+
+Route::get('/', [SiteController::class, 'home'])->name('home');
+Route::get('/about', [SiteController::class, 'about'])->name('about');
+Route::get('/enrollment', [SiteController::class, 'enrollment'])->name('enrollment.public');
+
+Route::get('/news', [SiteController::class, 'newsIndex'])->name('news.public');
+Route::get('/news/category/{slug}', [SiteController::class, 'newsCategory'])->name('news.category');
+Route::get('/news-detail/{id}', [SiteController::class, 'newsDetail'])->whereNumber('id')->name('news.detail');
+
+Route::get('/kurikulum/{id}', [SiteController::class, 'kurikulumDetail'])->whereNumber('id')->name('kurikulum.detail');
+Route::get('/unit/{detail}', [SiteController::class, 'unitDetail'])->name('unit.detail');
+Route::get('/{sekolah}', [SiteController::class, 'sekolah'])
+    ->where('sekolah', 'sekolah-kemurnian-(1|2|3)')
+    ->name('sekolah.detail');
