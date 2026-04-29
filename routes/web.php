@@ -20,6 +20,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('/hero', [HeroController::class, 'index'])->name('hero');
     Route::get('/hero/create', [HeroController::class, 'create'])->name('hero.create');
     Route::post('/hero', [HeroController::class, 'store'])->name('hero.store');
+    Route::get('/hero/edit/{id}', [HeroController::class, 'edit'])->name('hero.edit');
+    Route::put('/hero/{id}', [HeroController::class, 'update'])->name('hero.update');
     Route::delete('/hero/{id}', [HeroController::class, 'destroy'])->name('hero.destroy');
     Route::post('/hero/reorder', [HeroController::class, 'reorder'])->name('hero.reorder');
 

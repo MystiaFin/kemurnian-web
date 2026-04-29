@@ -23,6 +23,15 @@ class HeroController extends Controller
         return Inertia::render('Admin/Hero/Create');
     }
 
+    public function edit($id)
+    {
+        $hero = Hero::findOrFail($id);
+
+        return Inertia::render('Admin/Hero/Edit', [
+            'hero' => $hero,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -52,6 +61,49 @@ class HeroController extends Controller
         $hero->save();
 
         return redirect()->route('admin.hero')->with('success', 'Hero banner created!');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'desktopImage' => 'nullable|image|max:10240',
+            'tabletImage' => 'nullable|image|max:10240',
+            'mobileImage' => 'nullable|image|max:10240',
+        ]);
+
+        $hero = Hero::findOrFail($id);
+        $hero->header_text = $request->headerText;
+        $hero->button_text = $request->buttonText;
+        $hero->href = $request->hrefText;
+
+        if ($request->hasFile('desktopImage')) {
+            $raw = $hero->getRawOriginal('desktop_image');
+            if ($raw) {
+                Storage::disk('public_html')->delete($raw);
+            }
+            $path = $request->file('desktopImage')->store('hero/desktop', 'public_html');
+            $hero->desktop_image = $path;
+        }
+        if ($request->hasFile('tabletImage')) {
+            $raw = $hero->getRawOriginal('tablet_image');
+            if ($raw) {
+                Storage::disk('public_html')->delete($raw);
+            }
+            $path = $request->file('tabletImage')->store('hero/tablet', 'public_html');
+            $hero->tablet_image = $path;
+        }
+        if ($request->hasFile('mobileImage')) {
+            $raw = $hero->getRawOriginal('mobile_image');
+            if ($raw) {
+                Storage::disk('public_html')->delete($raw);
+            }
+            $path = $request->file('mobileImage')->store('hero/mobile', 'public_html');
+            $hero->mobile_image = $path;
+        }
+
+        $hero->save();
+
+        return redirect()->route('admin.hero')->with('success', 'Hero banner updated!');
     }
 
     public function destroy($id)
