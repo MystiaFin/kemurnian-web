@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Head } from '@inertiajs/react'
 import AdminLayout from '@/Layouts/AdminLayout'
 
 const presets = [
@@ -18,7 +19,9 @@ export default function Dashboard({ siteUrl }: { siteUrl: string }) {
   }
 
   return (
-    <div className="p-6 h-screen flex flex-col">
+    <>
+      <Head title="Dashboard | Admin" />
+      <div className="p-6 h-screen flex flex-col">
       <h1 className="text-2xl font-bold mb-2">Admin Dashboard</h1>
       <p className="text-gray-600 mb-4">Responsive Website Preview</p>
 
@@ -73,6 +76,7 @@ export default function Dashboard({ siteUrl }: { siteUrl: string }) {
         />
       </div>
     </div>
+    </>
   )
 }
 

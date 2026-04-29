@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, router } from '@inertiajs/react'
+import { Head, Link, router } from '@inertiajs/react'
 import AdminLayout from '@/Layouts/AdminLayout'
 import { compressMultipleImages } from '@/Utils/ImageCompression'
 
@@ -130,7 +130,9 @@ export default function NewsCreate() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl p-4">
+      <>
+        <Head title="Buat Berita | Admin" />
+        <div className="mx-auto max-w-3xl p-4">
       <Link href="/admin/news" className="mb-4 inline-block text-blue-600 hover:text-blue-800 underline">
         Back
       </Link>
@@ -254,6 +256,7 @@ export default function NewsCreate() {
         </button>
       </form>
     </div>
+    </>
   )
 }
 

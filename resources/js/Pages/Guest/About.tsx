@@ -1,25 +1,24 @@
+import { Head } from '@inertiajs/react'
 import GuestLayout from '@/Layouts/GuestLayout'
-import SectionHeader from '@GuestComponents/SectionHeader'
-import SchoolsInfo from '@GuestComponents/SchoolsInfo'
 
 export default function About() {
-  return (
-    <div className="py-12">
-      <SectionHeader title="TENTANG KAMI" as="h1" />
-      <section className="mx-auto max-w-4xl px-4 text-center">
-        <p className="font-merriweather leading-loose tracking-wide text-sm md:text-base">
-          Sekolah Kemurnian adalah lembaga pendidikan yang berfokus pada pembelajaran
-          yang seimbang antara akademik dan pembentukan karakter. Kami menghadirkan
-          lingkungan belajar yang hangat, modern, dan berorientasi pada masa depan.
-        </p>
-        <p className="mt-4 font-merriweather leading-loose tracking-wide text-sm md:text-base">
-          Dengan pengalaman puluhan tahun, kami terus berinovasi untuk memberikan
-          pengalaman belajar terbaik bagi setiap siswa dan orang tua.
-        </p>
-      </section>
-      <SchoolsInfo />
-    </div>
-  )
+    return (
+        <>
+            <Head title="About" />
+            <section className="bg-btn-primary pb-16">
+                <h1 className="flex items-center justify-center mb-8 w-full h-40 md:h-86 bg-red-primary text-white text-4xl md:text-6xl font-raleway font-bold text-center uppercase">
+                    ABOUT US
+                </h1>
+                <div className="max-w-4xl mx-auto px-4">
+                    <img
+                        src="/about-us.avif"
+                        alt="about-us"
+                        className="w-full h-auto rounded-lg"
+                    />
+                </div>
+            </section>
+        </>
+    )
 }
 
 About.layout = (page: React.ReactNode) => <GuestLayout>{page}</GuestLayout>

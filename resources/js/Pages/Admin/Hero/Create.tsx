@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, router } from '@inertiajs/react'
+import { Head, Link, router } from '@inertiajs/react'
 import { useImageCompression, DeviceType } from '@/Hooks/useImageCompression'
 import AdminLayout from '@/Layouts/AdminLayout'
 
@@ -72,7 +72,9 @@ export default function HeroCreate() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl p-4">
+    <>
+      <Head title="Buat Hero | Admin" />
+      <div className="mx-auto max-w-3xl p-4">
       <Link href="/admin/hero" className="mb-4 inline-block text-blue-600 hover:text-blue-800 underline">
         ← Back to Hero Banners
       </Link>
@@ -117,6 +119,7 @@ export default function HeroCreate() {
         </button>
       </div>
     </div>
+    </> 
   )
 }
 

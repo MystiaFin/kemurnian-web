@@ -1,3 +1,4 @@
+import { Head } from '@inertiajs/react'
 import GuestLayout from '@/Layouts/GuestLayout'
 import QuillRenderer from '@GuestComponents/QuillRenderer'
 
@@ -11,7 +12,9 @@ interface EnrollmentRecord {
 
 export default function Enrollment({ enrollment }: { enrollment?: EnrollmentRecord | null }) {
     return (
-        <main className="flex flex-col items-center justify-center mt-10 mx-5 md:mx-0">
+        <>
+            <Head title="Pendaftaran | Sekolah Kemurnian" />
+            <main className="flex flex-col items-center justify-center mt-10 mx-5 md:mx-0">
             {enrollment ? (
                 <>
                     <h1 className="text-center tracking-widest font-raleway font-extrabold text-lg md:text-2xl text-[#252525]">
@@ -44,7 +47,8 @@ export default function Enrollment({ enrollment }: { enrollment?: EnrollmentReco
                     Informasi penerimaan siswa belum tersedia.
                 </p>
             )}
-        </main>
+            </main>
+        </>
     )
 }
 

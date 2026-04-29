@@ -1,3 +1,4 @@
+import { Head } from '@inertiajs/react'
 import GuestLayout from '@/Layouts/GuestLayout'
 import SectionHeader from '@GuestComponents/SectionHeader'
 import schools from '@/data/schools.json'
@@ -54,10 +55,13 @@ export default function UnitDetail({ detail }: { detail: string }) {
 
   if (!currentUnit || !currentSchool) {
     return (
-      <div className="py-12">
-        <SectionHeader title="UNIT" as="h1" />
-        <p className="text-center font-merriweather">Unit not found.</p>
-      </div>
+      <>
+        <Head title="Unit | Sekolah Kemurnian" />
+        <div className="py-12">
+          <SectionHeader title="UNIT" as="h1" />
+          <p className="text-center font-merriweather">Unit not found.</p>
+        </div>
+      </>
     )
   }
 
@@ -87,11 +91,12 @@ export default function UnitDetail({ detail }: { detail: string }) {
 
   return (
     <>
+      <Head title={`${currentUnit.nama_sekolah}`} />
       <div className="flex items-center justify-center mb-8 w-full h-56 md:h-86 bg-red-primary text-white text-3xl md:text-6xl font-raleway font-bold text-center uppercase">
         <h1>{currentUnit.nama_sekolah}</h1>
       </div>
 
-      <SectionHeader title="DETAIL UNIT SEKOLAH" as="h2" />
+      <SectionHeader title="PROFIL SEKOLAH" as="h2" />
 
       <div className="flex flex-col items-center p-6 font-merriweather">
         <img
