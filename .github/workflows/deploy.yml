@@ -52,3 +52,14 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           source: "public/build/"
           target: "~/domains/main.sekolahkemurnian.sch.id/kemurnian-web"
+
+      - name: Safely sync public directory to public_html
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            rsync -a --delete ~/domains/main.sekolahkemurnian.sch.id/kemurnian-web/public/build/ ~/domains/main.sekolahkemurnian.sch.id/public_html/build/
+            rsync -a --exclude='index.php' --exclude='.htaccess' ~/domains/main.sekolahkemurnian.sch.id/kemurnian-web/public/ ~/domains/main.sekolahkemurnian.sch.id/public_html/
