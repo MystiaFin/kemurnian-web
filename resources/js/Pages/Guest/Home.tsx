@@ -6,7 +6,6 @@ import KurikulumList from '@GuestComponents/KurikulumList'
 import NewsPreview from '@GuestComponents/NewsPreview'
 import SchoolsInfo from '@GuestComponents/SchoolsInfo'
 import SectionHeader from '@GuestComponents/SectionHeader'
-import { getSnippet } from '@/Utils/sanitize'
 
 interface HeroBannerRecord {
     id: number
@@ -55,7 +54,11 @@ export default function Home({ hero, kurikulum, latestNews, enrollment }: HomePr
 
     return (
         <>
-            <Head title="Sekolah Kemurnian" />
+            <Head>
+                <title>Sekolah Kemurnian</title>
+                <meta name="description" content="Sekolah Kemurnian, berdiri sejak 1978 di Jakarta Barat. Menyediakan jenjang pendidikan berkualitas dari TK, SD, SMP, hingga SMA di Greenville dan Citra." />
+            </Head>
+            <h1 className="sr-only">Sekolah Kemurnian - TK, SD, SMP, SMA</h1>
             <div id="hero">
                 <HeroSliders images={hero} />
             </div>
