@@ -28,6 +28,8 @@ export default function NewsDetail({ news, otherNews }: { news?: NewsRecord | nu
         )
     }
 
+    const hasEmbed = Boolean(news.embed && news.embed.trim().length > 0)
+
     return (
         <>
             <Head title={`${news.title} - News`} />
@@ -43,23 +45,23 @@ export default function NewsDetail({ news, otherNews }: { news?: NewsRecord | nu
                     })}
                 </p>
 
-                {news.image_urls?.length > 0 && (
-                    <ImageCardSlider images={news.image_urls} alt={news.title} />
+                {hasEmbed ? (
+                    <div className="w-full max-w-2xl md:max-w-3xl my-8 flex justify-center">
+                        <div
+                            className="relative w-full aspect-video [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:absolute [&>iframe]:top-0 [&>iframe]:left-0"
+                            dangerouslySetInnerHTML={{ __html: news.embed ?? '' }}
+                        />
+                    </div>
+                ) : (
+                    news.image_urls?.length > 0 && (
+                        <ImageCardSlider images={news.image_urls} alt={news.title} />
+                    )
                 )}
 
                 <QuillRenderer
                     content={news.body}
                     className="text-justify text-sm md:text-base font-merriweather font-light tracking-wider leading-loose max-w-2xl md:max-w-3xl w-full"
                 />
-
-                {news.embed && (
-                    <div className="w-full max-w-2xl md:max-w-3xl my-8">
-                        <div
-                            className="relative w-full aspect-video [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:absolute [&>iframe]:top-0 [&>iframe]:left-0"
-                            dangerouslySetInnerHTML={{ __html: news.embed }}
-                        />
-                    </div>
-                )}
 
                 <hr className="clear-both mx-auto my-10 h-0 w-3/4 md:max-w-4xl border-0 border-t-[3px] border-solid border-[#8b0000]" />
 
