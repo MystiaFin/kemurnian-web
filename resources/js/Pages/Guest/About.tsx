@@ -11,7 +11,7 @@ export default function About() {
                 </h1>
                 <div className="max-w-4xl mx-auto px-4">
                     <img
-                        src="/about-us.avif"
+                        src="/assets/about-us.avif"
                         alt="about-us"
                         className="w-full h-auto rounded-lg"
                     />

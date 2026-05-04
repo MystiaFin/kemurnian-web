@@ -5,17 +5,17 @@ export default function Footer() {
     {
       href: 'https://web.facebook.com/sekolah.kemurnian?_rdc=1&_rdr',
       alt: 'Facebook',
-      src: '/facebook.svg',
+      src: '/assets/facebook.svg',
     },
     {
       href: 'https://www.instagram.com/sekolah.kemurnian/',
       alt: 'Instagram',
-      src: '/instagram.svg',
+      src: '/assets/instagram.svg',
     },
     {
       href: 'https://www.youtube.com/results?search_query=sekolah+kemurnian',
       alt: 'YouTube',
-      src: '/youtube.svg',
+      src: '/assets/youtube.svg',
     },
   ]
 
@@ -23,7 +23,7 @@ export default function Footer() {
     <footer className="overflow-x-hidden bg-black-primary flex w-full flex-col items-center justify-center p-2 py-4 text-center text-white">
       <div className="mb-4 mt-8 flex flex-wrap justify-center gap-10">
         <img
-          src="/cambridge.webp"
+          src="/assets/cambridge.webp"
           alt="Cambridge Logo"
           width={200}
           height={80}

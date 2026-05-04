@@ -27,12 +27,12 @@ export default function FixedBottom() {
         className="h-6 w-58 pointer-events-auto"
         controlsList="nodownload noplaybackrate"
       >
-        <source src="/mars-kemurnian-jaya.mp3" />
+        <source src="/assets/mars-kemurnian-jaya.mp3" />
       </audio>
 
       <div className="flex flex-col items-center gap-2 pointer-events-auto">
         <a href="https://linktr.ee/sekolahkemurnian">
-          <img src="/whatsapp.svg" width={50} height={50} alt="whatsapp" />
+          <img src="/assets/whatsapp.svg" width={50} height={50} alt="whatsapp" />
         </a>
 
         <button

@@ -22,7 +22,7 @@ export default function KurikulumList({ kurikulum }: { kurikulum: KurikulumRecor
               className="flex justify-center items-center flex-col text-center w-full max-w-sm md:max-w-lg flex-shrink-0 p-4"
             >
               <div className="flex justify-center mb-4">
-                <img src="/icon-book.svg" alt="Logo" width={48} height={48} className="w-12" />
+                <img src="/assets/icon-book.svg" alt="Logo" width={48} height={48} className="w-12" />
               </div>
               <h2 className="font-bold mb-0 md:mb-2 text-lg md:text-xl">
                 {item.title}

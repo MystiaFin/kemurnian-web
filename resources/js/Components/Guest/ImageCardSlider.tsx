@@ -105,7 +105,7 @@ export default function ImageCardSlider({ images, alt, title }: ImageCardSliderP
             type="button"
           >
             <img
-              src="/left.svg"
+              src="/assets/left.svg"
               alt="button left"
               width={30}
               height={30}
@@ -119,7 +119,7 @@ export default function ImageCardSlider({ images, alt, title }: ImageCardSliderP
             type="button"
           >
             <img
-              src="/right.svg"
+              src="/assets/right.svg"
               alt="button right"
               width={30}
               height={30}

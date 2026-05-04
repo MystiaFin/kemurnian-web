@@ -19,7 +19,7 @@ export default function AdminSidebar() {
   return (
     <nav className="sticky top-0 w-64 bg-red-primary h-screen text-white flex flex-col justify-between">
       <div className="my-8 mx-4 h-12 flex items-center justify-center">
-        <img src="/nav_logo.webp" alt="Logo" className="object-contain h-full" />
+        <img src="/assets/nav_logo.webp" alt="Logo" className="object-contain h-full" />
       </div>
 
       <div className="flex flex-col">

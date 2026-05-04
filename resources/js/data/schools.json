@@ -1,7 +1,7 @@
 {
   "sekolah-kemurnian-1": {
     "title": "Sekolah Kemurnian I",
-    "image_path": "/sekolah/kemurnian_i.avif",
+    "image_path": "/assets/sekolah/kemurnian_i.avif",
     "units": [
       {
         "nama_sekolah": "TK Kemurnian I",
@@ -85,7 +85,7 @@
   },
   "sekolah-kemurnian-2": {
     "title": "Sekolah Kemurnian II",
-    "image_path": "/sekolah/kemurnian_ii.avif",
+    "image_path": "/assets/sekolah/kemurnian_ii.avif",
     "units": [
       {
         "nama_sekolah": "TK Kemurnian II",
@@ -195,7 +195,7 @@
   },
   "sekolah-kemurnian-3": {
     "title": "Sekolah Kemurnian III",
-    "image_path": "/sekolah/kemurnian_iii.avif",
+    "image_path": "/assets/sekolah/kemurnian_iii.avif",
     "units": [
       {
         "nama_sekolah": "TK Kemurnian III",

@@ -50,7 +50,7 @@ export default function Navbar({ searchPages }: { searchPages: Page[] }) {
           <div className="absolute left-1/2 -translate-x-1/2 z-[60]">
             <Link href="/">
               <img
-                src="/nav_logo.webp"
+                src="/assets/nav_logo.webp"
                 alt="Logo"
                 width={245}
                 height={245}
@@ -92,7 +92,7 @@ export default function Navbar({ searchPages }: { searchPages: Page[] }) {
               onKeyDown={handleKeyDown}
             />
             <button className="bg-btn-primary w-12 h-12 flex justify-center items-center rounded-r-md" type="button">
-              <img src="/search.svg" alt="Search" width={20} height={30} />
+              <img src="/assets/search.svg" alt="Search" width={20} height={30} />
             </button>
           </div>
 
