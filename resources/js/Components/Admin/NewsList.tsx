@@ -14,7 +14,8 @@ export interface NewsItem {
 export default function NewsList({ initialNews }: { initialNews: NewsItem[] }) {
     const [news, setNews] = useState<NewsItem[]>(initialNews)
 
-    function stripHtml(html: string) {
+    function stripHtml(html?: string | null) {
+        if (!html) return ''
         return html.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim()
     }
 
@@ -158,8 +159,8 @@ export default function NewsList({ initialNews }: { initialNews: NewsItem[] }) {
 
                                     <div className="flex-1 overflow-hidden">
                                         <p className="text-xs text-gray-600 leading-relaxed line-clamp-3">
-                                            {stripHtml(item.body ?? '').substring(0, 80)}
-                                            {stripHtml(item.body ?? '').length > 80 && '...'}
+                                            {stripHtml(item.body).substring(0, 80)}
+                                            {stripHtml(item.body).length > 80 && '...'}
                                         </p>
                                     </div>
 
