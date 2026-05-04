@@ -10,7 +10,7 @@ const presets = [
 ]
 
 export default function Dashboard({ siteUrl }: { siteUrl: string }) {
-  const [width, setWidth] = useState(740)
+  const [width, setWidth] = useState(940)
 
   const handleWidthChange = (value: number) => {
     if (value < 320) value = 320
