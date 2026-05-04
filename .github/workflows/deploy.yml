@@ -35,7 +35,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd ${{ secrets.DOMAIN_ROOT }}/${{ secrets.APP_DIR }}
+            cd ${{ secrets.DOMAIN_ROOT }}/kemurnian-web
             git pull origin main
             /opt/alt/php84/usr/bin/php /usr/local/bin/composer install --no-dev --optimize-autoloader
             /opt/alt/php84/usr/bin/php artisan migrate --force
@@ -51,7 +51,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           source: "public/build/"
-          target: "${{ secrets.DOMAIN_ROOT }}/${{ secrets.APP_DIR }}"
+          target: "${{ secrets.DOMAIN_ROOT }}/kemurnian-web"
 
       - name: Safely sync public directory to public_html
         uses: appleboy/ssh-action@v1
@@ -61,5 +61,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            rsync -a --delete ${{ secrets.DOMAIN_ROOT }}/${{ secrets.APP_DIR }}/public/build/ ${{ secrets.PUBLIC_HTML_DIR }}/build/
-            rsync -a --exclude='index.php' --exclude='.htaccess' ${{ secrets.DOMAIN_ROOT }}/${{ secrets.APP_DIR }}/public/ ${{ secrets.PUBLIC_HTML_DIR }}/
+            rsync -a --delete ${{ secrets.DOMAIN_ROOT }}/kemurnian-web/public/build/ ${{ secrets.DOMAIN_ROOT }}/public_html/build/
+            rsync -a --exclude='index.php' --exclude='.htaccess' ${{ secrets.DOMAIN_ROOT }}/kemurnian-web/public/ ${{ secrets.DOMAIN_ROOT }}/public_html/
