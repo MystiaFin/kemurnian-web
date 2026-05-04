@@ -119,3 +119,70 @@ pnpm dev
 - Point your web root to `public/` (or deploy `public/` into `public_html/`).
 - Run `php artisan migrate --force` after deploy.
 - Build assets with `pnpm build` or `npm run build` and deploy `public/build`.
+
+## Environment Variables
+
+Required in `.env`:
+- `APP_URL` Base URL for the site (used for asset URLs and links)
+- `APP_ENV` Set to `production` on the server
+- `APP_DEBUG` Set to `false` on the server
+- `DB_*` Database connection credentials
+- `FILESYSTEM_DISK` Uses `public_html` on shared hosting (see [config/filesystems.php](config/filesystems.php))
+
+## Static Assets
+
+Static files are stored in `public/assets/` and synced to `public_html/assets/` during deploy.
+Common paths:
+- `/assets/nav_logo.webp`
+- `/assets/sekolah/kemurnian_i.avif`
+
+Uploads (admin content) are stored in `public/uploads/` and served from `/uploads/...`.
+
+## Deployment (Hostinger Shared Hosting)
+
+See [DEPLOY.md](DEPLOY.md) for the full runbook.
+
+Quick summary:
+- The app lives outside `public_html` at `/home/u152944366/domains/sekolahkemurnian.sch.id/kemurnian-web`
+- `public_html/index.php` points to the app
+- GitHub Actions deploys code, runs migrations, and syncs `public/` into `public_html/`
+
+## CI
+
+Workflow: [.github/workflows/ci.yml](.github/workflows/ci.yml)
+
+CI runs on `main` pushes and PRs and checks:
+- Frontend build (`pnpm run build`)
+- Composer validation and install (no scripts)
+
+## Common Tasks
+
+### Create Admin User
+
+```bash
+php artisan admin:create "Admin Name" admin@example.com "StrongPass123"
+```
+
+### Clear Caches (production)
+
+```bash
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+```
+
+## Troubleshooting
+
+### 403 on routes like /news
+
+- Check that `public_html/.htaccess` exists and contains Laravel rewrite rules.
+- Remove legacy static folders/files that shadow routes (e.g. `public_html/news/`).
+
+### Old .html URLs do not redirect
+
+If the `.html` file still exists in `public_html`, Apache serves it directly and Laravel redirects never run.
+Rename or delete the legacy file, or add a direct redirect in `.htaccess`.
+
+### Uploads not showing
+
+Confirm `public_html/uploads/` exists and is writable by the web server.
