@@ -12,7 +12,7 @@ export default function GuestLayout({ children }: { children: React.ReactNode })
   const { searchPages = [] } = usePage<{ searchPages: SearchPage[] }>().props
 
   return (
-    <div className="antialiased bg-[#e6e6e6] scroll-smooth">
+    <div className="antialiased scroll-smooth">
       <Navbar searchPages={searchPages || []} />
       {children}
       <Footer />
