@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Head } from '@inertiajs/react'
 import GuestLayout from '@/Layouts/GuestLayout'
 import ImageCardSlider from '@GuestComponents/ImageCardSlider'
@@ -29,6 +30,29 @@ export default function NewsDetail({ news, otherNews }: { news?: NewsRecord | nu
     }
 
     const hasEmbed = Boolean(news.embed && news.embed.trim().length > 0)
+
+    useEffect(() => {
+        if (!hasEmbed) return
+
+        const existingScript = document.querySelector<HTMLScriptElement>('script[data-instgrm-embed="true"]')
+        const processEmbeds = () => {
+            const instgrm = (window as typeof window & { instgrm?: { Embeds?: { process?: () => void } } }).instgrm
+            instgrm?.Embeds?.process?.()
+        }
+
+        if (existingScript) {
+            processEmbeds()
+            return
+        }
+
+        const script = document.createElement('script')
+        script.async = true
+        script.defer = true
+        script.src = 'https://www.instagram.com/embed.js'
+        script.setAttribute('data-instgrm-embed', 'true')
+        script.onload = () => processEmbeds()
+        document.body.appendChild(script)
+    }, [hasEmbed, news.embed])
 
     return (
         <>
