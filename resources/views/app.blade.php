@@ -11,7 +11,7 @@
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="Sekolah Kemurnian">
     <meta property="og:description" content="Sekolah Kemurnian, berdiri sejak 1978 di Jakarta Barat...">
-    <meta property="og:image" content="{{ asset('og-banner.jpg') }}">
+    <meta property="og:image" content="{{ asset('og-banner.png') }}">
     @viteReactRefresh
     @vite(['resources/js/app.tsx', 'resources/css/app.css'])
     @inertiaHead
