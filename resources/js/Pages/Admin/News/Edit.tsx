@@ -31,7 +31,7 @@ interface NewsItem {
 
 export default function NewsEdit({ news }: { news: NewsItem }) {
   const [title, setTitle] = useState(news.title)
-  const [body, setBody] = useState(news.body)
+  const [body, setBody] = useState(news.body ?? '')
   const [date, setDate] = useState(news.date)
   const [from, setFrom] = useState(news.from)
   const [embed, setEmbed] = useState(news.embed ?? '')
@@ -257,7 +257,7 @@ export default function NewsEdit({ news }: { news: NewsItem }) {
         <div>
           <label className="block mb-1 font-medium">Body</label>
           <ReactQuill
-            value={body}
+            value={body ?? ''}
             onChange={setBody}
             modules={modules}
             formats={formats}
