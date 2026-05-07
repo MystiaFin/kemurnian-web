@@ -1,10 +1,9 @@
 @import 'tailwindcss';
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@200;300;400;700&family=Raleway:wght@400;600;700;800&display=swap');
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
-@source '../**/*.js';
+@source '../**/*.{js,ts,jsx,tsx}';
 
 @theme {
     --color-gray-primary: #2b2828;
