@@ -32,6 +32,7 @@ export default function NewsDetail({ news, otherNews }: { news?: NewsRecord | nu
     const embedHtml = news.embed ?? ''
     const hasEmbed = Boolean(embedHtml.trim().length > 0)
     const isInstagram = /instagram\.com/i.test(embedHtml)
+    const otherNewsPreview = otherNews.slice(0, 3)
 
     useEffect(() => {
         if (!hasEmbed) return
@@ -98,9 +99,9 @@ export default function NewsDetail({ news, otherNews }: { news?: NewsRecord | nu
                     OTHER NEWS AND EVENTS
                 </h2>
 
-                {otherNews.length > 0 ? (
+                {otherNewsPreview.length > 0 ? (
                     <div className="w-full max-w-6xl">
-                        <NewsPreview news={otherNews} />
+                        <NewsPreview news={otherNewsPreview} />
                     </div>
                 ) : (
                     <p className="text-gray-600 font-merriweather">No other recent news available.</p>
