@@ -14,7 +14,7 @@ const schools = [
     name: 'Sekolah Kemurnian II',
     image: '/assets/sekolah/kemurnian_ii.avif',
     address:
-      'Komplek Green Ville Blok Q No. 209, Duri Kepa, Kec. Kebon Jeruk, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11510',
+      'Komplek Green Ville Blok Q No. 229, Duri Kepa, Kec. Kebon Jeruk, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11510',
     map: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63467.48240572489!2d106.71308693124999!3d-6.168550499999991!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f651cef9a1c9%3A0xeff64c79506e34c2!2sSekolah%20Kemurnian%20II!5e0!3m2!1sid!2sid!4v1660379724754!5m2!1sid!2sid',
     href: 'sekolah-kemurnian-2',
   },
