@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSlider } from '@GuestComponents/HeroSlidersUtils/useSlider'
 import { useDrag } from '@GuestComponents/HeroSlidersUtils/useDrag'
 import HeroSlide from '@GuestComponents/HeroSlidersUtils/HeroSlide'
@@ -26,6 +26,10 @@ const NoBanners = () => (
 
 export default function HeroSliders({ images = [], interval = 5000 }: { images?: HeroBannerRecord[]; interval?: number }) {
   const sliderRef = useRef<HTMLDivElement>(null)
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === 'undefined') return false
+    return window.innerWidth < 768
+  })
 
   const { sortedSlides, loopedSlides, totalSlides } = useMemo(() => {
     const sorted = [...images].sort((a, b) => a.order - b.order)
@@ -56,6 +60,17 @@ export default function HeroSliders({ images = [], interval = 5000 }: { images?:
     setIsTransitioning,
   })
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    handleResize()
+    window.addEventListener('resize', handleResize)
+
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   if (totalSlides === 0) return <NoBanners />
 
   if (totalSlides === 1) {
@@ -67,25 +82,40 @@ export default function HeroSliders({ images = [], interval = 5000 }: { images?:
   }
 
   return (
-    <div
-      className="relative w-full overflow-hidden"
-      style={{ touchAction: 'pan-y' }}
-    >
-      <div
-        ref={sliderRef}
-        className="flex w-full"
-        style={{
-          transform: `translateX(${-currentIndex * 100}%)`,
-          transition: isTransitioning ? 'transform 0.5s ease-in-out' : 'none',
-        }}
-        {...dragHandlers}
-      >
-        {loopedSlides.map((slide, idx) => (
-          <HeroSlide key={idx} slide={slide} />
-        ))}
+    <div className="relative w-full overflow-hidden" style={{ touchAction: 'pan-y' }}>
+      <div className="overflow-hidden">
+        <div
+          ref={sliderRef}
+          className="flex w-full"
+          style={{
+            transform: `translateX(${-currentIndex * 100}%)`,
+            transition: isTransitioning ? 'transform 0.5s ease-in-out' : 'none',
+          }}
+          {...dragHandlers}
+        >
+          {loopedSlides.map((slide, idx) => (
+            <HeroSlide key={idx} slide={slide} />
+          ))}
+        </div>
       </div>
 
-      <SliderDots slides={sortedSlides} currentIndex={currentIndex} goToSlide={goToSlide} />
+      {isMobile ? (
+        <div className="py-4">
+          <SliderDots
+            slides={sortedSlides}
+            currentIndex={currentIndex}
+            goToSlide={goToSlide}
+            placement="below"
+          />
+        </div>
+      ) : (
+        <SliderDots
+          slides={sortedSlides}
+          currentIndex={currentIndex}
+          goToSlide={goToSlide}
+          placement="overlay"
+        />
+      )}
     </div>
   )
 }
