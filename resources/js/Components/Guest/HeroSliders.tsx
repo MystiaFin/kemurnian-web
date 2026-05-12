@@ -16,7 +16,7 @@ interface HeroBannerRecord {
 }
 
 const NoBanners = () => (
-  <div className="relative w-full h-[400px] md:h-[540px] flex items-center justify-center bg-[#641609] text-white">
+  <div className="relative w-full h-[calc(100svh-4rem)] flex items-center justify-center bg-gray-primary text-white">
     <div className="text-center">
       <p className="text-lg font-medium">No hero banners available</p>
       <p className="text-sm opacity-75 mt-2">Add some images to see them here</p>
@@ -60,7 +60,7 @@ export default function HeroSliders({ images = [], interval = 5000 }: { images?:
 
   if (totalSlides === 1) {
     return (
-      <div className="relative w-full h-[400px] md:h-[540px] bg-[#641609]">
+      <div className="relative w-full overflow-hidden">
         <HeroSlide slide={sortedSlides[0]} />
       </div>
     )
@@ -68,12 +68,12 @@ export default function HeroSliders({ images = [], interval = 5000 }: { images?:
 
   return (
     <div
-      className="relative w-full h-[600px] md:h-[540px] overflow-hidden bg-[#641609]"
+      className="relative w-full overflow-hidden"
       style={{ touchAction: 'pan-y' }}
     >
       <div
         ref={sliderRef}
-        className="flex w-full h-full"
+        className="flex w-full"
         style={{
           transform: `translateX(${-currentIndex * 100}%)`,
           transition: isTransitioning ? 'transform 0.5s ease-in-out' : 'none',

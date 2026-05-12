@@ -34,13 +34,13 @@ export default function HeroSlide({ slide }: HeroSlideProps) {
   }, [slide])
 
   return (
-    <div className="relative flex-shrink-0 w-full h-full">
+    <div className="relative flex-shrink-0 w-full">
       <img
         src={src}
         alt="Hero Banner"
         width={1920}
         height={680}
-        className="h-full w-full object-contain"
+        className="block w-full h-auto"
         draggable={false}
       />
 
