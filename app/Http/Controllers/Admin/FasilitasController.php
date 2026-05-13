@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Fasilitas;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -135,16 +134,7 @@ class FasilitasController extends Controller
     private function storeFile($file, string $folder, string $filename): ?string
     {
         $relativePath = $folder . '/' . $filename;
-
-        if (app()->environment('production')) {
-            Storage::disk('public_html')->putFileAs($folder, $file, $filename);
-            return $relativePath;
-        }
-
-        $destination = public_path('uploads/' . $folder);
-        File::ensureDirectoryExists($destination);
-        $file->move($destination, $filename);
-
+        Storage::disk('public_html')->putFileAs($folder, $file, $filename);
         return $relativePath;
     }
 
@@ -155,16 +145,7 @@ class FasilitasController extends Controller
         }
 
         $relativePath = ltrim($path, '/');
-
-        if (app()->environment('production')) {
-            Storage::disk('public_html')->delete($relativePath);
-            return;
-        }
-
-        $fullPath = public_path('uploads/' . $relativePath);
-        if (File::exists($fullPath)) {
-            File::delete($fullPath);
-        }
+        Storage::disk('public_html')->delete($relativePath);
     }
 
     private function mapImageUrl(?string $path): ?string
