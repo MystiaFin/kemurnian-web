@@ -16,6 +16,7 @@ jobs:
     env:
       RELEASE_ID: ${{ github.sha }}
       ARCHIVE_NAME: release-${{ github.sha }}.tar.gz
+      ARCHIVE_PATH: ${{ runner.temp }}/release-${{ github.sha }}.tar.gz
 
     steps:
       - name: Checkout code
@@ -47,7 +48,7 @@ jobs:
             --exclude="storage/framework/cache/*" \
             --exclude="storage/framework/sessions/*" \
             --exclude="storage/framework/views/*" \
-            -czf "$ARCHIVE_NAME" .
+            -czf "$ARCHIVE_PATH" .
 
       - name: Upload release archive
         uses: appleboy/scp-action@v1
@@ -56,7 +57,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "${{ env.ARCHIVE_NAME }}"
+          source: "${{ env.ARCHIVE_PATH }}"
           target: "${{ secrets.DOMAIN_ROOT }}/tmp"
 
       - name: Deploy release atomically
