@@ -3,10 +3,19 @@ name: Deploy to Hostinger
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      RELEASE_ID: ${{ github.sha }}
+      ARCHIVE_NAME: release-${{ github.sha }}.tar.gz
 
     steps:
       - name: Checkout code
@@ -22,44 +31,116 @@ jobs:
         with:
           version: 10.x
 
-      - name: Install and build assets
+      - name: Install dependencies and build assets
         run: |
-          pnpm install
+          pnpm install --frozen-lockfile
           pnpm run build
 
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            cd ${{ secrets.DOMAIN_ROOT }}/kemurnian-web
-            git pull origin main
-            /opt/alt/php84/usr/bin/php /usr/local/bin/composer install --no-dev --optimize-autoloader
-            /opt/alt/php84/usr/bin/php artisan migrate --force
-            /opt/alt/php84/usr/bin/php artisan config:cache
-            /opt/alt/php84/usr/bin/php artisan route:cache
-            /opt/alt/php84/usr/bin/php artisan view:cache
+      - name: Create release archive
+        run: |
+          tar \
+            --exclude=".git" \
+            --exclude=".github" \
+            --exclude="node_modules" \
+            --exclude="tests" \
+            --exclude="storage/logs/*" \
+            --exclude="storage/framework/cache/*" \
+            --exclude="storage/framework/sessions/*" \
+            --exclude="storage/framework/views/*" \
+            -czf "$ARCHIVE_NAME" .
 
-      - name: Copy built assets to server
+      - name: Upload release archive
         uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "public/build/"
-          target: "${{ secrets.DOMAIN_ROOT }}/kemurnian-web"
+          source: "${{ env.ARCHIVE_NAME }}"
+          target: "${{ secrets.DOMAIN_ROOT }}/tmp"
 
-      - name: Safely sync public directory to public_html
+      - name: Deploy release atomically
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
+          script_stop: true
           script: |
-            rsync -a --delete ${{ secrets.DOMAIN_ROOT }}/kemurnian-web/public/build/ ${{ secrets.DOMAIN_ROOT }}/public_html/build/
-            rsync -a --exclude='index.php' --exclude='.htaccess' ${{ secrets.DOMAIN_ROOT }}/kemurnian-web/public/ ${{ secrets.DOMAIN_ROOT }}/public_html/
+            set -euo pipefail
+
+            PHP_BIN="/opt/alt/php84/usr/bin/php"
+            COMPOSER_BIN="/usr/local/bin/composer"
+            DOMAIN_ROOT="${{ secrets.DOMAIN_ROOT }}"
+            APP_ROOT="$DOMAIN_ROOT/kemurnian-web"
+            RELEASES_DIR="$APP_ROOT/releases"
+            SHARED_DIR="$APP_ROOT/shared"
+            CURRENT_LINK="$APP_ROOT/current"
+            PUBLIC_HTML="$DOMAIN_ROOT/public_html"
+            RELEASE_ID="${{ env.RELEASE_ID }}"
+            ARCHIVE_PATH="$DOMAIN_ROOT/tmp/${{ env.ARCHIVE_NAME }}"
+            RELEASE_PATH="$RELEASES_DIR/$RELEASE_ID"
+
+            PREVIOUS_TARGET=""
+            if [ -L "$CURRENT_LINK" ]; then
+              PREVIOUS_TARGET="$(readlink -f "$CURRENT_LINK" || true)"
+            fi
+
+            rollback() {
+              if [ -n "$PREVIOUS_TARGET" ] && [ -d "$PREVIOUS_TARGET" ]; then
+                ln -sfn "$PREVIOUS_TARGET" "$CURRENT_LINK"
+                rsync -a --delete "$PREVIOUS_TARGET/public/build/" "$PUBLIC_HTML/build/"
+                rsync -a \
+                  --exclude='index.php' \
+                  --exclude='.htaccess' \
+                  --exclude='assets/' \
+                  --exclude='uploads/' \
+                  "$PREVIOUS_TARGET/public/" "$PUBLIC_HTML/"
+              fi
+            }
+            trap rollback ERR
+
+            mkdir -p "$RELEASES_DIR" "$SHARED_DIR/storage" "$DOMAIN_ROOT/tmp"
+            mkdir -p "$SHARED_DIR/storage/app" "$SHARED_DIR/storage/framework" "$SHARED_DIR/storage/logs"
+
+            if [ ! -f "$SHARED_DIR/.env" ]; then
+              echo "Missing $SHARED_DIR/.env. Create it before deploying."
+              exit 1
+            fi
+
+            rm -rf "$RELEASE_PATH"
+            mkdir -p "$RELEASE_PATH"
+            tar -xzf "$ARCHIVE_PATH" -C "$RELEASE_PATH"
+            rm -f "$ARCHIVE_PATH"
+
+            ln -sfn "$SHARED_DIR/.env" "$RELEASE_PATH/.env"
+            rm -rf "$RELEASE_PATH/storage"
+            ln -sfn "$SHARED_DIR/storage" "$RELEASE_PATH/storage"
+
+            cd "$RELEASE_PATH"
+            "$PHP_BIN" "$COMPOSER_BIN" install --no-dev --prefer-dist --optimize-autoloader --no-interaction
+            "$PHP_BIN" artisan migrate --force
+            "$PHP_BIN" artisan config:cache
+            "$PHP_BIN" artisan route:cache
+            "$PHP_BIN" artisan view:cache
+
+            ln -sfn "$RELEASE_PATH" "$CURRENT_LINK"
+
+            rsync -a --delete "$CURRENT_LINK/public/build/" "$PUBLIC_HTML/build/"
+            rsync -a \
+              --exclude='index.php' \
+              --exclude='.htaccess' \
+              --exclude='assets/' \
+              --exclude='uploads/' \
+              "$CURRENT_LINK/public/" "$PUBLIC_HTML/"
+
+            ls -1dt "$RELEASES_DIR"/* | tail -n +6 | xargs -r rm -rf
+            trap - ERR
+
+      - name: Health check
+        if: ${{ secrets.HEALTHCHECK_URL != '' }}
+        run: |
+          curl --fail --silent --show-error \
+            --retry 5 --retry-delay 5 --retry-connrefused \
+            "${{ secrets.HEALTHCHECK_URL }}"
