@@ -61,6 +61,19 @@ jobs:
           source: "${{ env.ARCHIVE_NAME }}"
           target: "${{ secrets.DOMAIN_ROOT }}/tmp"
 
+      - name: Prepare deploy script
+        run: cp .github/scripts/deploy.sh deploy.sh
+
+      - name: Upload deploy script
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "deploy.sh"
+          target: "${{ secrets.DOMAIN_ROOT }}/tmp"
+
       - name: Deploy release atomically
         uses: appleboy/ssh-action@v1
         with:
@@ -70,79 +83,8 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             set -euo pipefail
-
-            PHP_BIN="/opt/alt/php84/usr/bin/php"
-            COMPOSER_BIN="/usr/local/bin/composer"
             DOMAIN_ROOT="${{ secrets.DOMAIN_ROOT }}"
-            APP_ROOT="$DOMAIN_ROOT/kemurnian-web"
-            RELEASES_DIR="$APP_ROOT/releases"
-            SHARED_DIR="$APP_ROOT/shared"
-            CURRENT_LINK="$APP_ROOT/current"
-            PUBLIC_HTML="$DOMAIN_ROOT/public_html"
-            RELEASE_ID="${{ env.RELEASE_ID }}"
-            ARCHIVE_PATH="$DOMAIN_ROOT/tmp/${{ env.ARCHIVE_NAME }}"
-            RELEASE_PATH="$RELEASES_DIR/$RELEASE_ID"
-
-            PREVIOUS_TARGET=""
-            if [ -L "$CURRENT_LINK" ]; then
-              PREVIOUS_TARGET="$(readlink -f "$CURRENT_LINK" || true)"
-            fi
-
-            rollback() {
-              if [ -n "$PREVIOUS_TARGET" ] && [ -d "$PREVIOUS_TARGET" ]; then
-                ln -sfn "$PREVIOUS_TARGET" "$CURRENT_LINK"
-                rsync -a --delete "$PREVIOUS_TARGET/public/build/" "$PUBLIC_HTML/build/"
-                rsync -a \
-                  --exclude='index.php' \
-                  --exclude='.htaccess' \
-                  --exclude='assets/' \
-                  --exclude='uploads/' \
-                  "$PREVIOUS_TARGET/public/" "$PUBLIC_HTML/"
-              fi
-            }
-            trap rollback ERR
-
-            mkdir -p "$RELEASES_DIR" "$SHARED_DIR/storage" "$DOMAIN_ROOT/tmp"
-            mkdir -p "$SHARED_DIR/storage/app" "$SHARED_DIR/storage/framework" "$SHARED_DIR/storage/logs"
-
-            if [ ! -f "$SHARED_DIR/.env" ]; then
-              echo "Missing $SHARED_DIR/.env. Create it before deploying."
-              exit 1
-            fi
-
-            rm -rf "$RELEASE_PATH"
-            mkdir -p "$RELEASE_PATH"
-            if [ ! -f "$ARCHIVE_PATH" ]; then
-              echo "Archive not found at $ARCHIVE_PATH"
-              ls -la "$DOMAIN_ROOT/tmp"
-              exit 1
-            fi
-            tar -xzf "$ARCHIVE_PATH" -C "$RELEASE_PATH"
-            rm -f "$ARCHIVE_PATH"
-
-            ln -sfn "$SHARED_DIR/.env" "$RELEASE_PATH/.env"
-            rm -rf "$RELEASE_PATH/storage"
-            ln -sfn "$SHARED_DIR/storage" "$RELEASE_PATH/storage"
-
-            cd "$RELEASE_PATH"
-            "$PHP_BIN" "$COMPOSER_BIN" install --no-dev --prefer-dist --optimize-autoloader --no-interaction
-            "$PHP_BIN" artisan migrate --force
-            "$PHP_BIN" artisan config:cache
-            "$PHP_BIN" artisan route:cache
-            "$PHP_BIN" artisan view:cache
-
-            ln -sfn "$RELEASE_PATH" "$CURRENT_LINK"
-
-            rsync -a --delete "$CURRENT_LINK/public/build/" "$PUBLIC_HTML/build/"
-            rsync -a \
-              --exclude='index.php' \
-              --exclude='.htaccess' \
-              --exclude='assets/' \
-              --exclude='uploads/' \
-              "$CURRENT_LINK/public/" "$PUBLIC_HTML/"
-
-            ls -1dt "$RELEASES_DIR"/* | tail -n +6 | xargs -r rm -rf
-            trap - ERR
+            bash "$DOMAIN_ROOT/tmp/deploy.sh" "${{ env.RELEASE_ID }}" "$DOMAIN_ROOT"
 
       - name: Health check
         if: ${{ env.HEALTHCHECK_URL != '' }}
