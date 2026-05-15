@@ -16,7 +16,6 @@ jobs:
     env:
       RELEASE_ID: ${{ github.sha }}
       ARCHIVE_NAME: release-${{ github.sha }}.tar.gz
-      ARCHIVE_PATH: /tmp/release-${{ github.sha }}.tar.gz
 
     steps:
       - name: Checkout code
@@ -39,6 +38,7 @@ jobs:
 
       - name: Create release archive
         run: |
+          LOCAL_ARCHIVE_PATH="/tmp/$ARCHIVE_NAME"
           tar \
             --exclude=".git" \
             --exclude=".github" \
@@ -48,7 +48,8 @@ jobs:
             --exclude="storage/framework/cache/*" \
             --exclude="storage/framework/sessions/*" \
             --exclude="storage/framework/views/*" \
-            -czf "$ARCHIVE_PATH" .
+            -czf "$LOCAL_ARCHIVE_PATH" .
+          cp "$LOCAL_ARCHIVE_PATH" "$ARCHIVE_NAME"
 
       - name: Upload release archive
         uses: appleboy/scp-action@v1
@@ -57,7 +58,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "${{ env.ARCHIVE_PATH }}"
+          source: "${{ env.ARCHIVE_NAME }}"
           target: "${{ secrets.DOMAIN_ROOT }}/tmp"
 
       - name: Deploy release atomically
@@ -67,7 +68,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          script_stop: true
           script: |
             set -euo pipefail
 
@@ -112,6 +112,11 @@ jobs:
 
             rm -rf "$RELEASE_PATH"
             mkdir -p "$RELEASE_PATH"
+            if [ ! -f "$ARCHIVE_PATH" ]; then
+              echo "Archive not found at $ARCHIVE_PATH"
+              ls -la "$DOMAIN_ROOT/tmp"
+              exit 1
+            fi
             tar -xzf "$ARCHIVE_PATH" -C "$RELEASE_PATH"
             rm -f "$ARCHIVE_PATH"
 
