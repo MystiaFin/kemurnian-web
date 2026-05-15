@@ -16,7 +16,7 @@ jobs:
     env:
       RELEASE_ID: ${{ github.sha }}
       ARCHIVE_NAME: release-${{ github.sha }}.tar.gz
-      ARCHIVE_PATH: ${{ runner.temp }}/release-${{ github.sha }}.tar.gz
+      ARCHIVE_PATH: /tmp/release-${{ github.sha }}.tar.gz
 
     steps:
       - name: Checkout code
