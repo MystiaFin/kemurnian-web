@@ -19,7 +19,7 @@ export default function KurikulumList({ kurikulum }: { kurikulum: KurikulumRecor
           {kurikulum.map((item) => (
             <div
               key={item.id}
-              className="flex justify-center items-center flex-col text-center w-full max-w-sm md:max-w-lg flex-shrink-0 p-4"
+              className="flex justify-start items-center flex-col text-center w-full max-w-sm md:max-w-lg flex-shrink-0 p-4"
             >
               <div className="flex justify-center mb-4">
                 <img src="/assets/icon-book.svg" alt="Logo" width={48} height={48} className="w-12" />
