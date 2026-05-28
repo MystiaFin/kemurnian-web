@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Alumni;
 use App\Models\JobTitles;
 use App\Models\Universities;
+use App\Models\Kurikulum;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,7 +21,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         if (app()->environment('local', 'testing')) {
-
             $this->command->info('Local environment detected. Generating fake data...');
 
             User::firstOrCreate(
@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
             Universities::factory()->count(5)->create();
             JobTitles::factory()->count(5)->create();
             Alumni::factory()->count(5)->create();
+            Kurikulum::factory(4)->create();
 
             $this->command->info('Fake data seeded successfully!');
 
