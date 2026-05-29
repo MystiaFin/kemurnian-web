@@ -87,7 +87,7 @@ if [ ! -f "$CURRENT_LINK/public/build/manifest.json" ]; then
   echo "Error: Missing public/build/manifest.json. Build assets are not present."
   exit 1
 fi
-rsync -a "$CURRENT_LINK/public/build/" "$PUBLIC_HTML/build/"
+rsync -a --delete "$CURRENT_LINK/public/build/" "$PUBLIC_HTML/build/"
 rsync -a \
   --exclude='index.php' \
   --exclude='.htaccess' \
@@ -106,5 +106,3 @@ ls -1dt "$RELEASES_DIR"/* | tail -n +11 | xargs -r rm -rf
 trap - ERR
 
 echo "Deploy successful!"
-"$PHP_BIN" "$APP_ROOT/current/artisan" optimize:clear
-touch "$DOMAIN_ROOT/tmp/restart.txt"
