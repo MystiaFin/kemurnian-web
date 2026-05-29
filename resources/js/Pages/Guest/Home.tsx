@@ -62,7 +62,6 @@ export default function Home({ hero, kurikulum, latestNews, enrollment }: HomePr
             <div id="hero">
                 <HeroSliders images={hero} />
             </div>
-            test
 
             <div id="schools-info" className="bg-[#ecf0f1]">
                 <SchoolsInfo />
