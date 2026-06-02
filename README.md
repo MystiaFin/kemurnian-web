@@ -30,7 +30,7 @@ Auth:
 
 Key folders:
 - `app/Http/Controllers/Admin` Admin CRUD controllers
-- `app/Http/Controllers/Guest` Public site controller
+- `app/Http/Controllers/Guest` Public site controllers
 - `app/Http/Controllers/Auth` Login controller
 - `app/Http/Middleware` Admin guard
 - `database/migrations` Schema and content tables
@@ -46,7 +46,7 @@ Key folders:
 
 High-level flow:
 - `routes/web.php` maps URLs to controllers.
-- Public routes use `Guest/SiteController` and render Inertia pages in `resources/js/Pages/Guest`.
+- Public routes use the `Guest/*Controller` classes and render Inertia pages in `resources/js/Pages/Guest`.
 - Admin routes are protected by `auth` + `admin` middleware and render pages in `resources/js/Pages/Admin`.
 - Image uploads are stored in `public/uploads` and mapped to public URLs.
 - Schools info for `/unit/{detail}` and `/{sekolah}` comes from `resources/js/data/schools.json`.

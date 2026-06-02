@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+// Admin
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HeroController;
 use App\Http\Controllers\Admin\KurikulumController;
@@ -8,12 +10,19 @@ use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\EnrollmentController;
 use App\Http\Controllers\Admin\FasilitasController;
 use App\Http\Controllers\Admin\AlumniController;
-use App\Http\Controllers\Guest\SiteController;
+
+// Guest
+use App\Http\Controllers\Guest\HomeController;
+use App\Http\Controllers\Guest\EnrollmentController as PublicEnrollmentController;
+use App\Http\Controllers\Guest\NewsController as PublicNewsController;
+use App\Http\Controllers\Guest\KurikulumController as PublicKurikulumController;
+use App\Http\Controllers\Guest\SchoolController;
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
 });
 
+// Admin
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -69,23 +78,25 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::patch('/alumni/job-titles/{jobTitle}', [AlumniController::class, 'updateJobTitle'])->name('alumni.job-titles.update');
 });
 
-Route::get('/', [SiteController::class, 'home'])->name('home');
-Route::get('/about', [SiteController::class, 'about'])->name('about');
-Route::get('/enrollment', [SiteController::class, 'enrollment'])->name('enrollment.public');
+// Guest
+Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/enrollment', [PublicEnrollmentController::class, 'enrollment'])->name('enrollment.public');
 
-Route::get('/news', [SiteController::class, 'newsIndex'])->name('news.public');
-Route::get('/news/category/{slug}', [SiteController::class, 'newsCategory'])->name('news.category');
-Route::get('/news-detail/{id}', [SiteController::class, 'newsDetail'])->whereNumber('id')->name('news.detail');
+Route::get('/news', [PublicNewsController::class, 'newsIndex'])->name('news.public');
+Route::get('/news/category/{slug}', [PublicNewsController::class, 'newsCategory'])->name('news.category');
+Route::get('/news-detail/{id}', [PublicNewsController::class, 'newsDetail'])->whereNumber('id')->name('news.detail');
 
-Route::get('/kurikulum/{id}', [SiteController::class, 'kurikulumDetail'])->whereNumber('id')->name('kurikulum.detail');
-Route::get('/unit/{detail}', [SiteController::class, 'unitDetail'])->name('unit.detail');
-Route::get('/{sekolah}', [SiteController::class, 'sekolah'])
+Route::get('/kurikulum/{id}', [PublicKurikulumController::class, 'kurikulumDetail'])->whereNumber('id')->name('kurikulum.detail');
+Route::get('/unit/{detail}', [SchoolController::class, 'unitDetail'])->name('unit.detail');
+Route::get('/{sekolah}', [SchoolController::class, 'sekolah'])
     ->where('sekolah', 'sekolah-kemurnian-(1|2|3)')
     ->name('sekolah.detail');
 
 require __DIR__ . '/auth.php';
 
 
+// Redirects
 Route::redirect('/index.php', '/', 301);
 Route::redirect('/about.html', '/about', 301);
 Route::redirect('/sekolah-kemurnian-1.html', '/sekolah-kemurnian-1', 301);
