@@ -15,19 +15,15 @@ class NewsController extends Controller
         'sekolah-kemurnian-iii' => ['TK Kemurnian III', 'SD Kemurnian III'],
     ];
 
-    public function __construct(private GuestPageData $pageData)
-    {
-    }
-
     public function newsIndex()
     {
-        $allNews = $this->pageData->mapNewsCollection(News::orderBy('date', 'desc')->get());
+        $allNews = $this->pageData()->mapNewsCollection(News::orderBy('date', 'desc')->get());
         $initialNews = $allNews->slice(0, 12)->values();
 
         return Inertia::render('Guest/News/Index', [
             'allNews' => $allNews,
             'initialNews' => $initialNews,
-            'searchPages' => $this->pageData->buildSearchPages(),
+            'searchPages' => $this->pageData()->buildSearchPages(),
         ]);
     }
 
@@ -38,7 +34,7 @@ class NewsController extends Controller
             abort(404);
         }
 
-        $filtered = $this->pageData->mapNewsCollection(
+        $filtered = $this->pageData()->mapNewsCollection(
             News::whereIn('from', $filters)->orderBy('date', 'desc')->get()
         );
         $initialNews = $filtered->slice(0, 12)->values();
@@ -47,16 +43,16 @@ class NewsController extends Controller
             'category' => $slug,
             'allNews' => $filtered,
             'initialNews' => $initialNews,
-            'searchPages' => $this->pageData->buildSearchPages(),
+            'searchPages' => $this->pageData()->buildSearchPages(),
         ]);
     }
 
     public function newsDetail(int $id)
     {
         $news = News::find($id);
-        $formatted = $news ? $this->pageData->mapNewsRecord($news) : null;
+        $formatted = $news ? $this->pageData()->mapNewsRecord($news) : null;
 
-        $recent = $this->pageData->getLatestNews();
+        $recent = $this->pageData()->getLatestNews();
         $otherNews = $recent->filter(function ($item) use ($id) {
             return (int) $item['id'] !== $id;
         })->values();
@@ -64,7 +60,12 @@ class NewsController extends Controller
         return Inertia::render('Guest/News/Detail', [
             'news' => $formatted,
             'otherNews' => $otherNews,
-            'searchPages' => $this->pageData->buildSearchPages(),
+            'searchPages' => $this->pageData()->buildSearchPages(),
         ]);
+    }
+
+    private function pageData(): GuestPageData
+    {
+        return new GuestPageData();
     }
 }

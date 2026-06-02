@@ -11,10 +11,6 @@ use Inertia\Inertia;
 
 class HomeController extends Controller
 {
-    public function __construct(private GuestPageData $pageData)
-    {
-    }
-
     public function home()
     {
         $hero = Hero::orderBy('order')->get()->map(function (Hero $item) {
@@ -31,22 +27,27 @@ class HomeController extends Controller
         })->values();
 
         $kurikulum = Kurikulum::orderBy('order')->get();
-        $latestNews = $this->pageData->getLatestNews();
+        $latestNews = $this->pageData()->getLatestNews();
         $enrollment = Enrollment::first();
 
         return Inertia::render('Guest/Home', [
             'hero' => $hero,
             'kurikulum' => $kurikulum,
             'latestNews' => $latestNews,
-            'enrollment' => $enrollment ? $this->pageData->formatEnrollment($enrollment) : null,
-            'searchPages' => $this->pageData->buildSearchPages(),
+            'enrollment' => $enrollment ? $this->pageData()->formatEnrollment($enrollment) : null,
+            'searchPages' => $this->pageData()->buildSearchPages(),
         ]);
     }
 
     public function about()
     {
         return Inertia::render('Guest/About', [
-            'searchPages' => $this->pageData->buildSearchPages(),
+            'searchPages' => $this->pageData()->buildSearchPages(),
         ]);
+    }
+
+    private function pageData(): GuestPageData
+    {
+        return new GuestPageData();
     }
 }

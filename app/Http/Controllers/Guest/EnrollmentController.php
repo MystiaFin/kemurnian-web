@@ -9,17 +9,18 @@ use Inertia\Inertia;
 
 class EnrollmentController extends Controller
 {
-    public function __construct(private GuestPageData $pageData)
-    {
-    }
-
     public function enrollment()
     {
         $enrollment = Enrollment::first();
 
         return Inertia::render('Guest/Enrollment', [
-            'enrollment' => $enrollment ? $this->pageData->formatEnrollment($enrollment) : null,
-            'searchPages' => $this->pageData->buildSearchPages(),
+            'enrollment' => $enrollment ? $this->pageData()->formatEnrollment($enrollment) : null,
+            'searchPages' => $this->pageData()->buildSearchPages(),
         ]);
+    }
+
+    private function pageData(): GuestPageData
+    {
+        return new GuestPageData();
     }
 }

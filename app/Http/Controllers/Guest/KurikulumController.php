@@ -9,17 +9,18 @@ use Inertia\Inertia;
 
 class KurikulumController extends Controller
 {
-    public function __construct(private GuestPageData $pageData)
-    {
-    }
-
     public function kurikulumDetail(int $id)
     {
         $kurikulum = Kurikulum::find($id);
 
         return Inertia::render('Guest/KurikulumDetail', [
             'kurikulum' => $kurikulum,
-            'searchPages' => $this->pageData->buildSearchPages(),
+            'searchPages' => $this->pageData()->buildSearchPages(),
         ]);
+    }
+
+    private function pageData(): GuestPageData
+    {
+        return new GuestPageData();
     }
 }
