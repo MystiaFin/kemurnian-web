@@ -7,7 +7,7 @@ use App\Enums\SchoolGroup;
 use App\Enums\SchoolLevel;
 use Illuminate\Database\Eloquent\Model;
 
-class ContactLinks extends Model
+class ContactLink extends Model
 {
     /** @use HasFactory<\Database\Factories\ContactLinkFactory> */
     use HasFactory;

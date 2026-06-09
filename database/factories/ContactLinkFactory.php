@@ -7,9 +7,9 @@ use App\Enums\SchoolLevel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<ContactLinks>
+ * @extends Factory<ContactLink>
  */
-class ContactLinksFactory extends Factory
+class ContactLinkFactory extends Factory
 {
     /**
      * Define the model's default state.

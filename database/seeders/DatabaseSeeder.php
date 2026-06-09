@@ -3,11 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\Alumni;
-use App\Models\JobTitles;
-use App\Models\Universities;
+use App\Models\JobTitle;
+use App\Models\University;
 use App\Models\Kurikulum;
 use App\Models\User;
-use App\Models\ContactLinks;
+use App\Models\ContactLink;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -34,11 +34,11 @@ class DatabaseSeeder extends Seeder
                 ]
             );
 
-            Universities::factory()->count(5)->create();
-            JobTitles::factory()->count(5)->create();
+            University::factory()->count(5)->create();
+            JobTitle::factory()->count(5)->create();
             Alumni::factory()->count(5)->create();
             Kurikulum::factory(4)->create();
-            ContactLinks::factory()->count(5)->create();
+            ContactLink::factory()->count(5)->create();
 
             $this->command->info('Fake data seeded successfully!');
 

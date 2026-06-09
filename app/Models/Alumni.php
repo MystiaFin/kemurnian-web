@@ -26,6 +26,6 @@ class Alumni extends Model
 
     public function jobTitle(): BelongsTo
     {
-        return $this->belongsTo(JobTitles::class, 'job_title_id');
+        return $this->belongsTo(JobTitle::class, 'job_title_id');
     }
 }

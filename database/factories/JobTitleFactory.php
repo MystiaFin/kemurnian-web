@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends Factory<Model>
  */
-class JobTitlesFactory extends Factory
+class JobTitleFactory extends Factory
 {
     /**
      * Define the model's default state.

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Alumni;
-use App\Models\JobTitles;
-use App\Models\Universities;
+use App\Models\JobTitle;
+use App\Models\University;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
@@ -43,12 +43,12 @@ class AlumniController extends Controller
      */
     public function create()
     {
-        $universities = Universities::orderBy('name')->get(['id', 'name']);
-        $jobTitles = JobTitles::orderBy('name')->get(['id', 'name']);
+        $university = University::orderBy('name')->get(['id', 'name']);
+        $jobTitle = JobTitle::orderBy('name')->get(['id', 'name']);
 
         return Inertia::render('Admin/Alumni/Create', [
-            'universities' => $universities,
-            'jobTitles' => $jobTitles,
+            'university' => $university,
+            'jobTitle' => $jobTitle,
         ]);
     }
 
@@ -62,8 +62,8 @@ class AlumniController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'graduation_year' => ['required', 'integer', 'min:1900', 'max:' . ($currentYear + 1)],
-            'university_id' => ['nullable', 'exists:universities,id'],
-            'job_title_id' => ['nullable', 'exists:job_titles,id'],
+            'university_id' => ['nullable', 'exists:university,id'],
+            'job_title_id' => ['nullable', 'exists:job_title,id'],
             'motto' => ['required', 'string', 'max:255'],
             'image' => ['nullable', 'image', 'max:10240'],
         ]);
@@ -82,7 +82,7 @@ class AlumniController extends Controller
             'name' => ['required', 'string', 'max:255'],
         ]);
 
-        $university = Universities::create($validated);
+        $university = University::create($validated);
 
         return response()->json($university);
     }
@@ -93,12 +93,12 @@ class AlumniController extends Controller
             'name' => ['required', 'string', 'max:255'],
         ]);
 
-        $jobTitle = JobTitles::create($validated);
+        $jobTitle = JobTitle::create($validated);
 
         return response()->json($jobTitle);
     }
 
-    public function updateUniversity(Request $request, Universities $university): JsonResponse
+    public function updateUniversity(Request $request, University $university): JsonResponse
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -109,7 +109,7 @@ class AlumniController extends Controller
         return response()->json($university);
     }
 
-    public function updateJobTitle(Request $request, JobTitles $jobTitle): JsonResponse
+    public function updateJobTitle(Request $request, JobTitle $jobTitle): JsonResponse
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -168,8 +168,8 @@ class AlumniController extends Controller
      */
     public function edit(Alumni $alumni)
     {
-        $universities = Universities::orderBy('name')->get(['id', 'name']);
-        $jobTitles = JobTitles::orderBy('name')->get(['id', 'name']);
+        $university = University::orderBy('name')->get(['id', 'name']);
+        $jobTitles = JobTitle::orderBy('name')->get(['id', 'name']);
 
         return Inertia::render('Admin/Alumni/Edit', [
             'alumni' => [
@@ -182,7 +182,7 @@ class AlumniController extends Controller
                 'image_url' => $this->mapImageUrl($alumni->getRawOriginal('image_url')),
             ],
             'image_path' => $alumni->getRawOriginal('image_url'),
-            'universities' => $universities,
+            'university' => $university,
             'jobTitles' => $jobTitles,
         ]);
     }
@@ -197,8 +197,8 @@ class AlumniController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'graduation_year' => ['required', 'integer', 'min:1900', 'max:' . ($currentYear + 1)],
-            'university_id' => ['nullable', 'exists:universities,id'],
-            'job_title_id' => ['nullable', 'exists:job_titles,id'],
+            'university_id' => ['nullable', 'exists:university,id'],
+            'job_title_id' => ['nullable', 'exists:job_title,id'],
             'motto' => ['required', 'string', 'max:255'],
             'image' => ['nullable', 'image', 'max:10240'],
             'deleteImage' => ['nullable'],
