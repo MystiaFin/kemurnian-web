@@ -7,7 +7,7 @@ use App\Enums\SchoolLevel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<ContactLink>
+ * @extends Factory<ContactLinkFactory>
  */
 class ContactLinkFactory extends Factory
 {
