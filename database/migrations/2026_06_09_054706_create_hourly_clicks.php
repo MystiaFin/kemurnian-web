@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('hourly_clicks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('link_id')->constrained()->onDelete('cascade');
-            $table->timestamps('date_hour');
+            $table->foreignId('contact_link_id')->constrained()->onDelete('cascade');
+            $table->timestamp('date_hour');
             $table->unsignedInteger('clicks');
-            $table->index(['link_id', 'date_hour']);
+            $table->index(['contact_link_id', 'date_hour']);
             $table->timestamps();
         });
     }

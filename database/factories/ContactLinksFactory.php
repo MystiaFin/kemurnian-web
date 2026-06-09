@@ -2,15 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Link;
 use App\Enums\SchoolGroup;
 use App\Enums\SchoolLevel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Link>
+ * @extends Factory<ContactLinks>
  */
-class LinkFactory extends Factory
+class ContactLinksFactory extends Factory
 {
     /**
      * Define the model's default state.

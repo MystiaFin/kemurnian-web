@@ -7,6 +7,7 @@ use App\Models\JobTitles;
 use App\Models\Universities;
 use App\Models\Kurikulum;
 use App\Models\User;
+use App\Models\ContactLinks;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -37,6 +38,7 @@ class DatabaseSeeder extends Seeder
             JobTitles::factory()->count(5)->create();
             Alumni::factory()->count(5)->create();
             Kurikulum::factory(4)->create();
+            ContactLinks::factory()->count(5)->create();
 
             $this->command->info('Fake data seeded successfully!');
 

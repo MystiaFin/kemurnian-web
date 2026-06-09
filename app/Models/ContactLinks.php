@@ -7,9 +7,9 @@ use App\Enums\SchoolGroup;
 use App\Enums\SchoolLevel;
 use Illuminate\Database\Eloquent\Model;
 
-class Link extends Model
+class ContactLinks extends Model
 {
-    /** @use HasFactory<\Database\Factories\LinkFactory> */
+    /** @use HasFactory<\Database\Factories\ContactLinkFactory> */
     use HasFactory;
 
     protected $fillable = [
