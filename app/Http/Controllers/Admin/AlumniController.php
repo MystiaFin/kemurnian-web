@@ -13,12 +13,8 @@ use Inertia\Inertia;
 
 class AlumniController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        // TODO: empty order by. decide later
         $alumni = Alumni::with(['university:id,name', 'jobTitle:id,name'])
             ->orderBy('graduation_year')
             ->get()
@@ -33,14 +29,12 @@ class AlumniController extends Controller
                     'image_url' => $this->mapImageUrl($item->getRawOriginal('image_url')),
                 ];
             });
+
         return Inertia::render('Admin/Alumni/Index', [
             'alumni' => $alumni
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $university = University::orderBy('name')->get(['id', 'name']);
@@ -52,122 +46,37 @@ class AlumniController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $currentYear = now()->year;
-
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'graduation_year' => ['required', 'integer', 'min:1900', 'max:' . ($currentYear + 1)],
-            'university_id' => ['nullable', 'exists:university,id'],
-            'job_title_id' => ['nullable', 'exists:job_title,id'],
-            'motto' => ['required', 'string', 'max:255'],
-            'image' => ['nullable', 'image', 'max:10240'],
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'graduation_year' => 'required|integer|min:1900|max:' . (now()->year + 1),
+            'university_id' => 'nullable|exists:university,id',
+            'job_title_id' => 'nullable|exists:job_title,id',
+            'motto' => 'required|string|max:255',
+            'image' => 'nullable|image|max:10240',
         ]);
 
-        $validated['image_url'] = $this->storeImage($request);
-        unset($validated['image']);
+        $alumni = new Alumni();
+        $alumni->name = $request->name;
+        $alumni->graduation_year = $request->graduation_year;
+        $alumni->university_id = $request->university_id;
+        $alumni->job_title_id = $request->job_title_id;
+        $alumni->motto = $request->motto;
 
-        Alumni::create($validated);
-
-        return redirect()->route('admin.alumni');
-    }
-
-    public function storeUniversity(Request $request): JsonResponse
-    {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-        ]);
-
-        $university = University::create($validated);
-
-        return response()->json($university);
-    }
-
-    public function storeJobTitle(Request $request): JsonResponse
-    {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-        ]);
-
-        $jobTitle = JobTitle::create($validated);
-
-        return response()->json($jobTitle);
-    }
-
-    public function updateUniversity(Request $request, University $university): JsonResponse
-    {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-        ]);
-
-        $university->update($validated);
-
-        return response()->json($university);
-    }
-
-    public function updateJobTitle(Request $request, JobTitle $jobTitle): JsonResponse
-    {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-        ]);
-
-        $jobTitle->update($validated);
-
-        return response()->json($jobTitle);
-    }
-
-    private function storeImage(Request $request): ?string
-    {
-        $file = $request->file('image');
-        if (!$file || !$file->isValid()) {
-            return null;
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('alumni', 'public_html');
+            $alumni->image_url = $path;
         }
 
-        $folder = 'alumni';
-        $filename = now()->timestamp . '_' . $file->hashName();
-        $relativePath = $folder . '/' . $filename;
+        $alumni->save();
 
-        Storage::disk('public_html')->putFileAs($folder, $file, $filename);
-
-        return $relativePath;
+        return redirect()->route('admin.alumni')->with('success', 'Alumni entry created!');
     }
 
-    private function mapImageUrl(?string $path): ?string
+    public function edit($id)
     {
-        if (!$path) {
-            return null;
-        }
-
-        $baseUrl = rtrim(config('app.url'), '/') . '/uploads/';
-        return $baseUrl . ltrim($path, '/');
-    }
-
-    private function deleteImageFile(?string $path): void
-    {
-        if (!$path) {
-            return;
-        }
-
-        Storage::disk('public_html')->delete(ltrim($path, '/'));
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Alumni $alumni)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Alumni $alumni)
-    {
+        $alumni = Alumni::findOrFail($id);
         $university = University::orderBy('name')->get(['id', 'name']);
         $jobTitles = JobTitle::orderBy('name')->get(['id', 'name']);
 
@@ -187,52 +96,112 @@ class AlumniController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Alumni $alumni)
+    public function update(Request $request, $id)
     {
-        $currentYear = now()->year;
+        $alumni = Alumni::findOrFail($id);
 
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'graduation_year' => ['required', 'integer', 'min:1900', 'max:' . ($currentYear + 1)],
-            'university_id' => ['nullable', 'exists:university,id'],
-            'job_title_id' => ['nullable', 'exists:job_title,id'],
-            'motto' => ['required', 'string', 'max:255'],
-            'image' => ['nullable', 'image', 'max:10240'],
-            'deleteImage' => ['nullable'],
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'graduation_year' => 'required|integer|min:1900|max:' . (now()->year + 1),
+            'university_id' => 'nullable|exists:university,id',
+            'job_title_id' => 'nullable|exists:job_title,id',
+            'motto' => 'required|string|max:255',
+            'image' => 'nullable|image|max:10240',
         ]);
 
-        $existingPath = $alumni->getRawOriginal('image_url');
-        $newPath = $this->storeImage($request);
-        $deleteImage = filter_var($request->input('deleteImage'), FILTER_VALIDATE_BOOLEAN);
+        $alumni->name = $request->name;
+        $alumni->graduation_year = $request->graduation_year;
+        $alumni->university_id = $request->university_id;
+        $alumni->job_title_id = $request->job_title_id;
+        $alumni->motto = $request->motto;
 
-        if ($newPath) {
-            $this->deleteImageFile($existingPath);
-            $validated['image_url'] = $newPath;
-        } elseif ($deleteImage) {
-            $this->deleteImageFile($existingPath);
-            $validated['image_url'] = null;
+        if ($request->hasFile('image')) {
+            $raw = $alumni->getRawOriginal('image_url');
+            if ($raw) {
+                Storage::disk('public_html')->delete($raw);
+            }
+            $path = $request->file('image')->store('alumni', 'public_html');
+            $alumni->image_url = $path;
         }
 
-        unset($validated['image'], $validated['deleteImage']);
+        if (filter_var($request->input('deleteImage'), FILTER_VALIDATE_BOOLEAN)) {
+            $raw = $alumni->getRawOriginal('image_url');
+            if ($raw) {
+                Storage::disk('public_html')->delete($raw);
+            }
+            $alumni->image_url = null;
+        }
 
-        $alumni->update($validated);
+        $alumni->save();
 
-        return redirect()->route('admin.alumni');
+        return redirect()->route('admin.alumni')->with('success', 'Alumni entry updated!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Alumni $alumni)
+    public function destroy($id)
     {
-        $path = $alumni->getRawOriginal('image_url');
-        $this->deleteImageFile($path);
+        $alumni = Alumni::findOrFail($id);
+
+        $raw = $alumni->getRawOriginal('image_url');
+        if ($raw) {
+            Storage::disk('public_html')->delete($raw);
+        }
 
         $alumni->delete();
 
-        return back()->with('success', 'Alumni entry deleted successfully');
+        return back()->with('success', 'Alumni entry deleted.');
+    }
+
+    public function storeUniversity(Request $request): JsonResponse
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $university = University::create(['name' => $request->name]);
+
+        return response()->json($university);
+    }
+
+    public function storeJobTitle(Request $request): JsonResponse
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $jobTitle = JobTitle::create(['name' => $request->name]);
+
+        return response()->json($jobTitle);
+    }
+
+    public function updateUniversity(Request $request, University $university): JsonResponse
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $university->update(['name' => $request->name]);
+
+        return response()->json($university);
+    }
+
+    public function updateJobTitle(Request $request, JobTitle $jobTitle): JsonResponse
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $jobTitle->update(['name' => $request->name]);
+
+        return response()->json($jobTitle);
+    }
+
+    private function mapImageUrl(?string $path): ?string
+    {
+        if (!$path) {
+            return null;
+        }
+
+        $baseUrl = rtrim(config('app.url'), '/') . '/uploads/';
+        return $baseUrl . ltrim($path, '/');
     }
 }

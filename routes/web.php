@@ -72,9 +72,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('/alumni', [AlumniController::class, 'index'])->name('alumni');
     Route::get('/alumni/create', [AlumniController::class, 'create'])->name('alumni.create');
     Route::post('/alumni', [AlumniController::class, 'store'])->name('alumni.store');
-    Route::get('/alumni/edit/{alumni}', [AlumniController::class, 'edit'])->name('alumni.edit');
-    Route::put('/alumni/{alumni}', [AlumniController::class, 'update'])->name('alumni.update');
-    Route::delete('/alumni/{alumni}', [AlumniController::class, 'destroy'])->name('alumni.destroy');
+    Route::get('/alumni/edit/{id}', [AlumniController::class, 'edit'])->name('alumni.edit');
+    Route::put('/alumni/{id}', [AlumniController::class, 'update'])->name('alumni.update');
+    Route::delete('/alumni/{id}', [AlumniController::class, 'destroy'])->name('alumni.destroy');
     Route::post('/alumni/universities', [AlumniController::class, 'storeUniversity'])->name('alumni.universities.store');
     Route::patch('/alumni/universities/{university}', [AlumniController::class, 'updateUniversity'])->name('alumni.universities.update');
     Route::post('/alumni/job-titles', [AlumniController::class, 'storeJobTitle'])->name('alumni.job-titles.store');
