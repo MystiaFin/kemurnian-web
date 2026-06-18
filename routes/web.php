@@ -82,6 +82,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 
     // Contact Links
     Route::get('/contact-links', [ContactLinksController::class, 'index'])->name('contact-links');
+    Route::get('/contact-links/create', [ContactLinksController::class, 'create'])->name('contact-links.create');
+    Route::post('/contact-links', [ContactLinksController::class, 'store'])->name('contact-links.store');
     Route::put('/contact-links/{contactLink}', [ContactLinksController::class, 'update'])
         ->name('contact-links.update');
 });

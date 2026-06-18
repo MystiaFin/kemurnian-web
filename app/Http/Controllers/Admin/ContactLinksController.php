@@ -16,33 +16,70 @@ class ContactLinksController extends Controller
      */
     public function index()
     {
+        $schoolGroups = [];
+        foreach (SchoolGroup::cases() as $group) {
+            $schoolGroups[] = [
+                'value' => $group->value,
+                'label' => $group->label(),
+            ];
+        }
+
+        $schoolLevels = [];
+        foreach (SchoolLevel::cases() as $level) {
+            $schoolLevels[] = [
+                'value' => $level->value,
+                'label' => $level->label(),
+            ];
+        }
+
         return Inertia::render('Admin/ContactLinks/Index', [
             'contactLinks' => ContactLink::all(),
-            'schoolGroups' => collect(SchoolGroup::cases())->map(fn($g) => [
-                'value' => $g->value,
-                'label' => $g->label(),
-            ])->values(),
-            'schoolLevels' => collect(SchoolLevel::cases())->map(fn($l) => [
-                'value' => $l->value,
-                'label' => $l->label(),
-            ])->values(),
+            'schoolGroups' => $schoolGroups,
+            'schoolLevels' => $schoolLevels,
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $schoolGroups = [];
+        foreach (SchoolGroup::cases() as $group) {
+            $schoolGroups[] = [
+                'value' => $group->value,
+                'label' => $group->label(),
+            ];
+        }
+
+        $schoolLevels = [];
+        foreach (SchoolLevel::cases() as $level) {
+            $schoolLevels[] = [
+                'value' => $level->value,
+                'label' => $level->label(),
+            ];
+        }
+
+        return Inertia::render('Admin/ContactLinks/Create', [
+            'schoolGroups' => $schoolGroups,
+            'schoolLevels' => $schoolLevels,
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'school_group' => 'required|string|max:255',
+            'school_level' => 'required|string|max:255',
+            'url' => 'required|url|max:255',
+        ]);
+
+        ContactLink::create([
+            'name' => $request->name,
+            'school_group' => $request->school_group,
+            'school_level' => $request->school_level,
+            'url' => $request->url,
+        ]);
+
+        return redirect()->route('admin.contact-links')->with('success', 'Contact link created!');
     }
 
     /**
