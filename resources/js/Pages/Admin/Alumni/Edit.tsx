@@ -253,7 +253,7 @@ function EditOptionModal({ title, value, error, isSaving, onChange, onClose, onS
     )
 }
 
-export default function AlumniEdit({ alumni, image_path, universities, jobTitles }: { alumni: AlumniItem; image_path?: string | null; universities: Option[]; jobTitles: Option[] }) {
+export default function AlumniEdit({ alumni, image_path, university, jobTitles }: { alumni: AlumniItem; image_path?: string | null; university: Option[]; jobTitles: Option[] }) {
     const [name, setName] = useState(alumni.name)
     const [graduationYear, setGraduationYear] = useState(String(alumni.graduation_year))
     const [motto, setMotto] = useState(alumni.motto)
@@ -264,7 +264,7 @@ export default function AlumniEdit({ alumni, image_path, universities, jobTitles
     const [existingImage, setExistingImage] = useState(alumni.image_url ?? null)
     const [existingImagePath, setExistingImagePath] = useState(image_path ?? null)
     const [deleteExistingImage, setDeleteExistingImage] = useState(false)
-    const [universityOptions, setUniversityOptions] = useState<Option[]>(universities)
+    const [universityOptions, setUniversityOptions] = useState<Option[]>(university)
     const [jobTitleOptions, setJobTitleOptions] = useState<Option[]>(jobTitles)
     const [formMessage, setFormMessage] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)

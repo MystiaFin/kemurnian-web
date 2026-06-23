@@ -243,7 +243,7 @@ function EditOptionModal({ title, value, error, isSaving, onChange, onClose, onS
     )
 }
 
-export default function AlumniCreate({ universities, jobTitles }: { universities: Option[]; jobTitles: Option[] }) {
+export default function AlumniCreate({ university, jobTitle }: { university: Option[]; jobTitle: Option[] }) {
     const [name, setName] = useState('')
     const [graduationYear, setGraduationYear] = useState('')
     const [motto, setMotto] = useState('')
@@ -251,8 +251,8 @@ export default function AlumniCreate({ universities, jobTitles }: { universities
     const [jobTitleId, setJobTitleId] = useState<number | null>(null)
     const [imageFile, setImageFile] = useState<File | null>(null)
     const [imagePreview, setImagePreview] = useState<string | null>(null)
-    const [universityOptions, setUniversityOptions] = useState<Option[]>(universities)
-    const [jobTitleOptions, setJobTitleOptions] = useState<Option[]>(jobTitles)
+    const [universityOptions, setUniversityOptions] = useState<Option[]>(university)
+    const [jobTitleOptions, setJobTitleOptions] = useState<Option[]>(jobTitle)
     const [formMessage, setFormMessage] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [modalType, setModalType] = useState<'university' | 'jobTitle' | null>(null)

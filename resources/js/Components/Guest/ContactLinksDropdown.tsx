@@ -73,6 +73,19 @@ export default function ContactLinksDropdown({ label, links }: Props) {
                             href={link.url}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={() => {
+                                const csrfToken = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content ?? ''
+                                fetch('/clicks', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': csrfToken,
+                                        'X-Requested-With': 'XMLHttpRequest'
+                                    },
+                                    body: JSON.stringify({ contact_link_id: link.id }),
+                                    keepalive: true,
+                                })
+                            }}
                             className="block px-6 py-3 text-red-primary hover:bg-red-primary hover:text-white transition-colors"
                         >
                             {link.name}
