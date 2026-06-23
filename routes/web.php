@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+
+// Services
+use App\Services\ClickBuffer;
 
 // Admin
 use App\Http\Controllers\Admin\DashboardController;
@@ -88,7 +92,21 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         ->name('contact-links.update');
 });
 
+use App\Jobs\RecordClick;
+
 // Guest
+Route::post('/clicks', function (Request $request) {
+    $contactLinkId = (int) $request->input('contact_link_id');
+
+    if ($contactLinkId <= 0) {
+        return response()->noContent();
+    }
+
+    app(ClickBuffer::class)->increment($contactLinkId);
+
+    return response()->noContent();
+})->name('clicks.record');
+
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/enrollment', [PublicEnrollmentController::class, 'enrollment'])->name('enrollment.public');
