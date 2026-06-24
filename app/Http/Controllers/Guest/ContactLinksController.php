@@ -13,10 +13,10 @@ class ContactLinksController extends Controller
     public function index()
     {
         return Inertia::render('Guest/ContactLinks', [
-            'contactLinks' => ContactLink::all(),
-            'schoolGroups' => collect(SchoolGroup::cases())->map(fn($g) => [
-                'value' => $g->value,
-                'label' => $g->label(),
+            'contactLinks' => ContactLink::orderBy('school_group')->get(),
+            'schoolGroups' => collect(SchoolGroup::cases())->map(fn($group) => [
+                'value' => $group->value,
+                'label' => $group->label(),
             ])->values(),
         ]);
     }

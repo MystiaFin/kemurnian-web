@@ -32,7 +32,7 @@ function groupLinks(links: ContactLinksRecord[]): Record<string, ContactLinksRec
 
 // Helper: build label lookup from schoolGroups
 function buildLabelMap(groups: SchoolGroupOption[]): Record<string, string> {
-    return Object.fromEntries(groups.map((g) => [g.value, g.label]));
+    return Object.fromEntries(groups.map((group) => [group.value, group.label]));
 }
 
 export default function ContactLinks({ contactLinks, schoolGroups }: Props) {
@@ -53,13 +53,17 @@ export default function ContactLinks({ contactLinks, schoolGroups }: Props) {
 
                 <div className="py-10 px-4 md:px-0">  {/* add px-4 here */}
                     {hasLinks &&
-                        Object.entries(groupedLinks).map(([groupKey, links]) => (
-                            <ContactLinksDropdown
-                                key={groupKey}
-                                label={labels[groupKey] ?? groupKey}
-                                links={links}
-                            />
-                        ))}
+                        schoolGroups.map(({ value }) => {
+                            const links = groupedLinks[value];
+                            if (!links) return null;
+                            return (
+                                <ContactLinksDropdown
+                                    key={value}
+                                    label={labels[value] ?? value}
+                                    links={links}
+                                />
+                            );
+                        })}
                 </div>
             </section>
         </>
