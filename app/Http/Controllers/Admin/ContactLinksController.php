@@ -14,7 +14,7 @@ class ContactLinksController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $schoolGroups = [];
         foreach (SchoolGroup::cases() as $group) {
@@ -32,7 +32,20 @@ class ContactLinksController extends Controller
             ];
         }
 
-        $contactLinks = ContactLink::withSum('hourlyClicks', 'clicks')->get();
+        $sortBy = $request->query('sort_by', 'name');
+        $sortOrder = $request->query('sort_order', 'asc');
+
+        $allowedSorts = ['name', 'school_group', 'school_level'];
+        if (!in_array($sortBy, $allowedSorts)) {
+            $sortBy = 'name';
+        }
+        if (!in_array($sortOrder, ['asc', 'desc'])) {
+            $sortOrder = 'asc';
+        }
+
+        $contactLinks = ContactLink::withSum('hourlyClicks', 'clicks')
+            ->orderBy($sortBy, $sortOrder)
+            ->get();
 
         $clickStats = $contactLinks->map(function ($link) {
             return [
@@ -46,6 +59,8 @@ class ContactLinksController extends Controller
             'schoolGroups' => $schoolGroups,
             'schoolLevels' => $schoolLevels,
             'clickStats' => $clickStats,
+            'sortBy' => $sortBy,
+            'sortOrder' => $sortOrder,
         ]);
     }
 

@@ -26,11 +26,15 @@ export default function ContactLinksIndex({
     schoolGroups,
     schoolLevels,
     clickStats,
+    sortBy = 'name',
+    sortOrder = 'asc',
 }: {
     contactLinks: ItemContactLink[];
     schoolGroups: Option[];
     schoolLevels: Option[];
     clickStats: ClickStat[];
+    sortBy?: string;
+    sortOrder?: string;
 }) {
     const safeLinks = contactLinks || [];
     const stats = clickStats || [];
@@ -49,6 +53,8 @@ export default function ContactLinksIndex({
                 links={safeLinks}
                 schoolGroups={schoolGroups}
                 schoolLevels={schoolLevels}
+                sortBy={sortBy}
+                sortOrder={sortOrder}
             />
 
             <div className="mt-10">
