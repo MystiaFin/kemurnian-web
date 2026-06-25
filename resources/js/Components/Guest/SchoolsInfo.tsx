@@ -37,12 +37,9 @@ export default function SchoolsInfo() {
           {schools.map((school, idx) => (
             <div
               key={idx}
-              className="border-b-2 border-gray-300 md:border-b-0 pb-8 md:pb-0"
+              className="text-center flex flex-col items-center"
             >
-              <Link
-                href={`/${school.href}`}
-                className="text-center cursor-pointer flex flex-col items-center justify-center"
-              >
+              <Link href={`/${school.href}`} className="flex flex-col">
                 <img
                   src={school.image}
                   alt={school.name}
@@ -50,22 +47,25 @@ export default function SchoolsInfo() {
                   height={180}
                   className="w-48 md:w-60 lg:w-72 object-contain"
                 />
-                <h2 className="tracking-tight font-black mt-2 md:mt-8 mb-0 md:mb-4 text-base md:text-lg font-raleway">
-                  {school.name}
-                </h2>
-                <p className="max-w-64 md:max-w-60 lg:max-w-72 mb-6 font-merriweather font-[100] text-xs md:text-sm leading-loose tracking-wider">
-                  {school.address}
-                </p>
-                <iframe
-                  src={school.map}
-                  title={`${school.name} location`}
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className={`w-40 h-40 md:w-48 md:h-48 lg:w-52 lg:h-52 iframe${idx + 1}`}
-                />
+                <span className="w-full bg-btn-primary text-white text-center font-bold py-2 text-xs md:text-sm tracking-wider uppercase">
+                  click for more info
+                </span>
               </Link>
+              <h2 className="tracking-tight font-black mt-2 md:mt-8 mb-0 md:mb-4 text-base md:text-lg font-raleway">
+                {school.name}
+              </h2>
+              <p className="max-w-64 md:max-w-60 lg:max-w-72 mb-6 font-merriweather font-[100] text-xs md:text-sm leading-loose tracking-wider">
+                {school.address}
+              </p>
+              <iframe
+                src={school.map}
+                title={`${school.name} location`}
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className={`w-40 h-40 md:w-48 md:h-48 lg:w-52 lg:h-52 iframe${idx + 1}`}
+              />
             </div>
           ))}
         </section>
