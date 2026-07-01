@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import { Head, Link, router } from '@inertiajs/react'
-import ReactQuill from 'react-quill-new'
-import 'react-quill-new/dist/quill.snow.css'
+import RichTextEditor from '@/Components/Admin/RichTextEditor'
 import AdminLayout from '@/Layouts/AdminLayout'
 
-const modules = {
+const kurikulumModules = {
     toolbar: [
         ['bold', 'italic', 'underline'],
         [{ color: [] }, { background: [] }],
@@ -14,7 +13,7 @@ const modules = {
     ],
 }
 
-const formats = ['header', 'bold', 'italic', 'underline', 'color', 'background', 'list', 'indent', 'link']
+const kurikulumFormats = ['header', 'bold', 'italic', 'underline', 'color', 'background', 'list', 'indent', 'link']
 
 export default function KurikulumCreate() {
     const [title, setTitle] = useState('')
@@ -83,14 +82,12 @@ export default function KurikulumCreate() {
 
                 <div className="mb-4">
                     <label className="mb-2 block font-medium">Content</label>
-                    <ReactQuill
-                        theme="snow"
+                    <RichTextEditor
                         value={content}
                         onChange={setContent}
-                        modules={modules}
-                        formats={formats}
+                        modules={kurikulumModules}
+                        formats={kurikulumFormats}
                         placeholder="Write your content here..."
-                        className="bg-white"
                         readOnly={isSubmitting}
                     />
                 </div>

@@ -1,21 +1,7 @@
 import { useState } from 'react'
 import { Head, Link, router } from '@inertiajs/react'
 import AdminLayout from '@/Layouts/AdminLayout'
-import ReactQuill from 'react-quill-new'
-import 'react-quill-new/dist/quill.snow.css'
-
-const modules = {
-  toolbar: [
-    [{ header: [1, 2, false] }],
-    ['bold', 'italic', 'underline'],
-    [{ color: [] }, { background: [] }],
-    [{ list: 'ordered' }, { list: 'bullet' }],
-    ['link'],
-    ['clean']
-  ]
-}
-
-const formats = ['header', 'bold', 'italic', 'underline', 'color', 'background', 'list', 'link']
+import RichTextEditor from '@/Components/Admin/RichTextEditor'
 
 export default function EnrollmentCreate() {
   const [title, setTitle] = useState('')
@@ -94,12 +80,10 @@ export default function EnrollmentCreate() {
 
         <div>
           <label className="block mb-1 font-medium">Body</label>
-          <ReactQuill
+          <RichTextEditor
             value={body}
             onChange={setBody}
-            modules={modules}
-            formats={formats}
-            className="bg-white min-h-[200px]"
+            className="min-h-[200px]"
             readOnly={isSubmitting}
           />
         </div>

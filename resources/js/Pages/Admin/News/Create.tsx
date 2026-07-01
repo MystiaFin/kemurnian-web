@@ -3,8 +3,7 @@ import { Head, Link, router } from '@inertiajs/react'
 import AdminLayout from '@/Layouts/AdminLayout'
 import { compressMultipleImages } from '@/Utils/ImageCompression'
 
-import ReactQuill from 'react-quill-new'
-import 'react-quill-new/dist/quill.snow.css'
+import RichTextEditor from '@/Components/Admin/RichTextEditor'
 
 const fromOptions = [
   'General',
@@ -25,18 +24,6 @@ export default function NewsCreate() {
   const [successMessage, setSuccessMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const [uploadError, setUploadError] = useState('')
-
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, false] }],
-      ['bold', 'italic', 'underline'],
-      [{ color: [] }, { background: [] }],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['link'], ['clean']
-    ]
-  }
-
-  const formats = ['header', 'bold', 'italic', 'underline', 'color', 'background', 'list', 'link']
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
@@ -237,13 +224,10 @@ export default function NewsCreate() {
 
         <div>
           <label className="block mb-1 font-medium">Body (optional)</label>
-          <ReactQuill
+          <RichTextEditor
             value={body}
             onChange={setBody}
-            modules={modules}
-            formats={formats}
             placeholder="Write news content here..."
-            className="bg-white"
           />
         </div>
 

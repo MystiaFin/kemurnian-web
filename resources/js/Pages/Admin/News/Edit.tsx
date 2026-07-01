@@ -3,8 +3,7 @@ import { Head, Link, router } from '@inertiajs/react'
 import AdminLayout from '@/Layouts/AdminLayout'
 import { compressMultipleImages } from '@/Utils/ImageCompression'
 
-import ReactQuill from 'react-quill-new'
-import 'react-quill-new/dist/quill.snow.css'
+import RichTextEditor from '@/Components/Admin/RichTextEditor'
 
 const fromOptions = [
   'General',
@@ -46,18 +45,6 @@ export default function NewsEdit({ news }: { news: NewsItem }) {
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
   const [compressing, setCompressing] = useState(false)
-
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, false] }],
-      ['bold', 'italic', 'underline'],
-      [{ color: [] }, { background: [] }],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['link'], ['clean']
-    ]
-  }
-
-  const formats = ['header', 'bold', 'italic', 'underline', 'color', 'background', 'list', 'link']
 
   async function handleAddImages(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return
@@ -256,12 +243,9 @@ export default function NewsEdit({ news }: { news: NewsItem }) {
 
         <div>
           <label className="block mb-1 font-medium">Body</label>
-          <ReactQuill
+          <RichTextEditor
             value={body ?? ''}
             onChange={setBody}
-            modules={modules}
-            formats={formats}
-            className="bg-white"
           />
         </div>
 
